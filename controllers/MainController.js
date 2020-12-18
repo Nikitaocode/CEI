@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken")
 const nodemailer = require("nodemailer")
 const fetch = require('node-fetch');
 const { OAuth2Client } = require("google-auth-library")
-const client = new OAuth2Client("501516992284-p5ndrh0l2dfr2umcs904uk92vg488vb3.apps.googleusercontent.com")
+const client = new OAuth2Client("501516992284-icth2bhte5iu6fpskcd97hcia62f9qdd.apps.googleusercontent.com")
 
 // EMAIL CONFIGURATIONS
 var mail = nodemailer.createTransport({

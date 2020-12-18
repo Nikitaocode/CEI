@@ -112,7 +112,7 @@ const onUserLogin=(e)=>{
           </div>
           <div className="form-side">
             <NavLink to="/" className="white">
-              <span>CEI</span>
+              <span className="logo-single" />
             </NavLink>
             <CardTitle className="mb-4">
               <IntlMessages id="user.login-title" />
@@ -161,7 +161,7 @@ const onUserLogin=(e)=>{
                   <div style={styles.divStyle} className="d-flex justify-content-center align-items-center">OR</div>
                   <div style={styles.divStyle} className="d-flex justify-content-center align-items-center">
                   <GoogleLogin
-                  clientId="501516992284-h973pgebu8mpdk66dn837vqjjtg2lsim.apps.googleusercontent.com"
+                  clientId="501516992284-icth2bhte5iu6fpskcd97hcia62f9qdd.apps.googleusercontent.com"
                   // render={renderProps => (
                   //   <button onClick={renderProps.onClick} style={{background:'red',height:'2rem',width:'8rem'}}>Login with google</button>
                   // )}
