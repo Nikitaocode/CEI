@@ -13,7 +13,8 @@ const AppLayout = ({ containerClassnames, children, history }) => {
   const user = Authservice.getCurrentUser()
   // if not user, then redirect to login page
   useEffect(() => {
-    axios.get("/dashboard", { headers: Authservice.authHeader() }).then(res => {
+    axios.get("/dashboard-page", { headers: Authservice.authHeader() }).then(res => {
+      console.log(res.data)
       if(res.data.error){
         history.push("/user/login")
       }

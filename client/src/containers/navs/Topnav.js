@@ -270,10 +270,7 @@ const TopNav = ({
         </div>
       
       </div>
-      <NavLink className="navbar-logo" to={adminRoot}>
-        <span className="logo d-none d-xs-block" />
-        <span className="logo-mobile d-block d-xs-none" />
-      </NavLink>
+      <div style={{fontSize:'2.5rem'}}>CEI</div>
 
       <div className="navbar-right">
         {isDarkSwitchActive && <TopnavDarkSwitch />}

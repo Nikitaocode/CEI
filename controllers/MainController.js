@@ -70,14 +70,14 @@ const login = async (req, res) => {
                 }
                 else {
                     res.json({
-                        error: "password did not match"
+                        error: "Incorrect email or password"
                     })
                 }
             })
         }
         else {
             res.json({
-                error: "No user Found"
+                error: "Incorrect email or password"
             })
         }
     })

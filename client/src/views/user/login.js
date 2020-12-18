@@ -111,9 +111,9 @@ const onUserLogin=(e)=>{
             </p>
           </div>
           <div className="form-side">
-            <NavLink to="/" className="white">
-              <span className="logo-single" />
-            </NavLink>
+            
+            <div style={{fontSize:'2.5rem'}}>CEI</div>
+            {/* </NavLink> */}
             <CardTitle className="mb-4">
               <IntlMessages id="user.login-title" />
             </CardTitle>

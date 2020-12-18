@@ -63,9 +63,7 @@ const Register = ({ history }) => {
             </p>
           </div>
           <div className="form-side">
-            <NavLink to="/" className="white">
-            <span>CEI</span>
-            </NavLink>
+          <div style={{fontSize:'2.5rem'}}>CEI</div>
             <CardTitle className="mb-4">
               <IntlMessages id="user.register" />
             </CardTitle>
