@@ -7,39 +7,42 @@ const data = [
     icon: 'iconsminds-shop-4',
     label: 'menu.dashboards',
     to: `${adminRoot}/dashboards`,
-    // roles: [UserRole.Admin, UserRole.Editor],
-    // subs: [
-    //   {
-    //     icon: 'simple-icon-briefcase',
-    //     label: 'menu.default',
-    //     to: `${adminRoot}/dashboards/default`,
-    //     // roles: [UserRole.Admin],
+    roles: [UserRole.Admin, UserRole.Editor],
+    subs: [
+      {
+        icon: 'simple-icon-briefcase',
+        label: 'menu.default',
+        to: `${adminRoot}/dashboards/default`,
+        // roles: [UserRole.Admin],
 
-    //   },
-    //   {
-    //     icon: 'simple-icon-pie-chart',
-    //     label: 'menu.analytics',
-    //     to: `${adminRoot}/dashboards/analytics`,
-    //     // roles: [UserRole.Admin],
+      },
+      {
+        icon: 'simple-icon-pie-chart',
+        label: 'menu.analytics',
+        to: `${adminRoot}/dashboards/analytics`,
+        // roles: [UserRole.Admin],
 
-    //   },
-    //   {
-    //     icon: 'simple-icon-basket-loaded',
-    //     label: 'menu.ecommerce',
-    //     to: `${adminRoot}/dashboards/ecommerce`,
-    //     // roles: [UserRole.Editor],
+      },
+      {
+        icon: 'simple-icon-basket-loaded',
+        label: 'menu.ecommerce',
+        to: `${adminRoot}/dashboards/ecommerce`,
+        // roles: [UserRole.Editor],
 
-    //   },
-    //   {
-    //     icon: 'simple-icon-doc',
-    //     label: 'menu.content',
-    //     to: `${adminRoot}/dashboards/content`,
-    //     // roles: [UserRole.Editor],
+      },
+      {
+        icon: 'simple-icon-doc',
+        label: 'menu.content',
+        to: `${adminRoot}/dashboards/content`,
+        // roles: [UserRole.Editor],
 
-    //   },
-    // ],
+      },
+    ],
   },
-  // {
+  
+];
+export default data;
+// {
   //   id: 'Orders',
   //   icon: 'iconsminds-digital-drawing',
   //   label: 'menu.pages',
@@ -393,5 +396,3 @@ const data = [
   //   to: 'https://gogo-react-docs.coloredstrategies.com/',
   //   newWindow: true,
   // },
-];
-export default data;
