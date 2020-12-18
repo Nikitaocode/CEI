@@ -3,11 +3,11 @@ import { adminRoot } from "./defaultValues";
 
 const data = [
   {
-    id: 'Inventory',
+    id: 'dashboards',
     icon: 'iconsminds-shop-4',
     label: 'menu.dashboards',
     to: `${adminRoot}/dashboards`,
-    roles: [UserRole.Admin, UserRole.Editor],
+    // roles: [UserRole.Admin, UserRole.Editor],
     subs: [
       {
         icon: 'simple-icon-briefcase',
@@ -39,11 +39,8 @@ const data = [
       },
     ],
   },
-  
-];
-export default data;
-// {
-  //   id: 'Orders',
+  // {
+  //   id: 'pages',
   //   icon: 'iconsminds-digital-drawing',
   //   label: 'menu.pages',
   //   to: `${adminRoot}/pages`,
@@ -193,7 +190,7 @@ export default data;
   //   ],
   // },
   // {
-  //   id: 'users',
+  //   id: 'applications',
   //   icon: 'iconsminds-air-balloon-1',
   //   label: 'menu.applications',
   //   to: `${adminRoot}/applications`,
@@ -396,3 +393,5 @@ export default data;
   //   to: 'https://gogo-react-docs.coloredstrategies.com/',
   //   newWindow: true,
   // },
+];
+export default data;
