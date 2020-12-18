@@ -161,7 +161,7 @@ const onUserLogin=(e)=>{
                   <div style={styles.divStyle} className="d-flex justify-content-center align-items-center">OR</div>
                   <div style={styles.divStyle} className="d-flex justify-content-center align-items-center">
                   <GoogleLogin
-                  clientId="501516992284-p5ndrh0l2dfr2umcs904uk92vg488vb3.apps.googleusercontent.com"
+                  clientId="501516992284-h973pgebu8mpdk66dn837vqjjtg2lsim.apps.googleusercontent.com"
                   // render={renderProps => (
                   //   <button onClick={renderProps.onClick} style={{background:'red',height:'2rem',width:'8rem'}}>Login with google</button>
                   // )}
