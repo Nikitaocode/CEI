@@ -3,7 +3,7 @@ import { adminRoot } from "./defaultValues";
 
 const data = [
   {
-    id: 'dashboards',
+    id: 'Inventory',
     icon: 'iconsminds-shop-4',
     label: 'menu.dashboards',
     to: `${adminRoot}/dashboards`,
@@ -40,7 +40,7 @@ const data = [
     ],
   },
   {
-    id: 'pages',
+    id: 'Orders',
     icon: 'iconsminds-digital-drawing',
     label: 'menu.pages',
     to: `${adminRoot}/pages`,
@@ -190,7 +190,7 @@ const data = [
     ],
   },
   {
-    id: 'applications',
+    id: 'users',
     icon: 'iconsminds-air-balloon-1',
     label: 'menu.applications',
     to: `${adminRoot}/applications`,

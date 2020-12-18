@@ -11,8 +11,8 @@ const client = new OAuth2Client("501516992284-icth2bhte5iu6fpskcd97hcia62f9qdd.a
 var mail = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'nikitachananaitl@gmail.com',
-        pass: 'ITL2020@#'
+        user: 'ceideveloperoc@gmail.com',
+        pass: 'bwc@202'
     }
 });
 // SIGN UP API
