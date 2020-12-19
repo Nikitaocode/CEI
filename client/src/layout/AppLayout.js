@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -10,7 +10,17 @@ import { NotificationManager } from '../components/common/react-notifications';
 
 import axios from 'axios'
 const AppLayout = ({ containerClassnames, children, history }) => {
-  const user = Authservice.getCurrentUser()
+  const [userData,setUserData]= useState({})
+  useEffect(()=>{
+  getuserData()
+  })
+  const getuserData =()=>{
+    const user = Authservice.getCurrentUser()
+    axios.get("/userData",{params:{id:user.user.id}}).then(res=>{
+        console.log(res.data)
+            setUserData(res.data.data)
+    })
+}
   // if not user, then redirect to login page
   useEffect(() => {
     axios.get("/dashboard-page", { headers: Authservice.authHeader() }).then(res => {
@@ -34,7 +44,7 @@ const AppLayout = ({ containerClassnames, children, history }) => {
   
   return (
     <div id="app-container" className={containerClassnames}>
-      <TopNav history={history} user={user}/>
+      <TopNav history={history} user={userData}/>
       <Sidebar />
       <main>
         <div className="container-fluid">{children}</div>

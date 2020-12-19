@@ -17,7 +17,7 @@ var data = [{
   subs: [{
     icon: 'simple-icon-briefcase',
     label: 'menu.default',
-    to: "".concat(_defaultValues.adminRoot, "/dashboards/default") // roles: [UserRole.Admin],
+    to: "".concat(_defaultValues.adminRoot, "/dashboards/") // roles: [UserRole.Admin],
 
   }, {
     icon: 'simple-icon-pie-chart',

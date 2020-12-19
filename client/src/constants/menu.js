@@ -12,7 +12,7 @@ const data = [
       {
         icon: 'simple-icon-briefcase',
         label: 'menu.default',
-        to: `${adminRoot}/dashboards/default`,
+        to: `${adminRoot}/dashboards/`,
         // roles: [UserRole.Admin],
 
       },

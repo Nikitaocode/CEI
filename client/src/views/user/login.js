@@ -174,6 +174,11 @@ const onUserLogin=(e)=>{
                     <NavLink to="/user/forgot-password">
                       <IntlMessages id="user.forgot-password-question" />
                     </NavLink>
+                    <NavLink to="/user/register">
+                      <IntlMessages id="Create an Account" />
+                    </NavLink>
+                    </div>
+                    <div className="d-flex justify-content-center align-items-center">
                     <Button
                     onClick={onUserLogin}
                       color="primary"

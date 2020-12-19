@@ -293,16 +293,16 @@ const TopNav = ({
         {user ? <div className="user d-inline-block">
           <UncontrolledDropdown className="dropdown-menu-right">
             <DropdownToggle className="p-0" color="empty">
-              <span style={{textTransform:'capitalize'}} className="name mr-1">{user.user.firstName} {user.user.lastName} </span>
+              <span style={{textTransform:'capitalize'}} className="name mr-1">{user.firstName} {user.lastName} </span>
               <span>
                 <img alt="Profile" src="/assets/img/profiles/l-1.jpg" />
               </span>
             </DropdownToggle>
             <DropdownMenu className="mt-3" right>
-              <DropdownItem>Account</DropdownItem>
-              <DropdownItem>Features</DropdownItem>
+              <DropdownItem onClick={()=>window.location.href='/app/edit-profile'}>Manage Account</DropdownItem>
+              {/* <DropdownItem>Features</DropdownItem>
               <DropdownItem>History</DropdownItem>
-              <DropdownItem>Support</DropdownItem>
+              <DropdownItem>Support</DropdownItem> */}
               <DropdownItem divider />
               <DropdownItem onClick={() => handleLogout()}>
                 Sign out

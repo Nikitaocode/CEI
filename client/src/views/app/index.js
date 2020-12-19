@@ -19,6 +19,9 @@ const Menu = React.lazy(() => import(/* webpackChunkName: "menu" */ './menu'));
 const BlankPage = React.lazy(() =>
   import(/* webpackChunkName: "blank-page" */ './blank-page')
 );
+const EditProfile = React.lazy(() =>
+  import(/* webpackChunkName: "blank-page" */ './EditProfile')
+);
 
 const App = ({ match }) => {
   return (
@@ -59,6 +62,10 @@ const App = ({ match }) => {
             <Route
               path={`${match.url}/blank-page`}
               render={(props) => <BlankPage {...props} />}
+            />
+            <Route
+              path={`${match.url}/edit-profile`}
+              render={(props) => <EditProfile {...props} />}
             />
             <Redirect to="/error" />
           </Switch>

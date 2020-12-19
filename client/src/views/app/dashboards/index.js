@@ -18,9 +18,9 @@ const EcommerceDefault = React.lazy(() =>
 const Dashboards = ({ match }) => (
   <Suspense fallback={<div className="loading" />}>
     <Switch>
-      <Redirect exact from={`${match.url}/`} to={`${match.url}/default`} />
+      <Redirect exact from={`${match.url}/`} to={`${match.url}/main`} />
       <Route
-        path={`${match.url}/default`}
+        path={`${match.url}/main`}
         render={(props) => <DashboardDefault {...props} />}
       />
       <Route
