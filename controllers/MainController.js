@@ -296,6 +296,33 @@ const facebooklogin=(req,res)=>{
     })
 }
 
+// GET USERDATA
+
+const userData=(req,res)=>{
+    // console.log(req.query)
+    user.findOne({where:{id:req.query.id}}).then((response)=>{
+        res.json({
+            data:response.dataValues
+        })
+    })
+    
+}
+
+// EDIT PROFILE
+
+const editprofile =(req,res)=>{
+    console.log(req.query)
+    console.log(req.body)
+    user.update(req.body,{where:{id:req.query.id}}).then(response=>{
+        // console.log(response)
+        res.status(200).json({
+            success:"Successfully updated"
+        })
+    }).catch(err=>{
+        console.log(err)
+    })
+}
+
 module.exports = {
     signup: signup,
     login: login,
@@ -303,7 +330,9 @@ module.exports = {
     changePassword: changePassword,
     dashboard: dashboard,
     googleLogin: googleLogin,
-    facebooklogin:facebooklogin
+    facebooklogin:facebooklogin,
+    editprofile:editprofile,
+    userData:userData
 }
 
 

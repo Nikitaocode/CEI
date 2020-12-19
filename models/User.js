@@ -31,19 +31,24 @@ const User = db.define('users', {
         type: Sequelize.STRING,
         
     },
+    country: {
+        type: Sequelize.STRING,
+        
+    },
     avatar:{
         type:Sequelize.STRING
     },
     zipcode: {
         type: Sequelize.STRING,
     },  
-    created:{
-        type:Sequelize.DATE,
-        default:Date.now()
-    },
-    updated:{
-        type:Sequelize.DATE
-    },
+    // created:{
+    //     type:Sequelize.DATE,
+    //     default:Date.now()
+    // },
+    // updated:{
+    //     type:Sequelize.DATE
+    // },
+    
     company:{
         type:Sequelize.STRING,
     }
