@@ -13,7 +13,7 @@ const AppLayout = ({ containerClassnames, children, history }) => {
   const [userData,setUserData]= useState({})
   useEffect(()=>{
   getuserData()
-  })
+  },[userData])
   const getuserData =()=>{
     const user = Authservice.getCurrentUser()
     axios.get("/userData",{params:{id:user.user.id}}).then(res=>{
