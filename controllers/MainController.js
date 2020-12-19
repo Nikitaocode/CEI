@@ -12,7 +12,7 @@ var mail = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'ceideveloperoc@gmail.com',
-        pass: 'bwc@202'
+        pass: 'bwc@2020'
     }
 });
 // SIGN UP API
@@ -109,7 +109,7 @@ const sendOTP = async (req, res) => {
         const OTP = generateOTP()
         console.log(OTP)
         var mailoptions = {
-            from: 'nikitachananaitl@gmail.com',
+            from: 'ceideveloperoc@gmail.com',
             to: req.body.email,
             subject: `OTP for Application`,
             text: `Your OTP for Application is ${OTP}`
