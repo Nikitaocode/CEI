@@ -299,7 +299,7 @@ const facebooklogin=(req,res)=>{
 // GET USERDATA
 
 const userData=(req,res)=>{
-    // console.log(req.query)
+    console.log(req.query)
     user.findOne({where:{id:req.query.id}}).then((response)=>{
         res.json({
             data:response.dataValues

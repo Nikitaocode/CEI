@@ -18,8 +18,11 @@ const AppLayout = ({ containerClassnames, children, history }) => {
   useEffect(()=>{
     const userData = Authservice.getCurrentUser().user
     console.log(userData)
-    setUser(userData)
-  },[])
+    axios.get("/userData",{params:{id:userData.id}}).then(res=>{
+      console.log(res.data.data)
+      setUser(res.data.data)
+    })
+  },[user])
             
 
   // if not user, then redirect to login page
