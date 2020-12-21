@@ -19,7 +19,7 @@ const AppLayout = ({ containerClassnames, children, history }) => {
     const userData = Authservice.getCurrentUser().user
     console.log(userData)
     setUser(userData)
-  },[user])
+  },[])
             
 
   // if not user, then redirect to login page
