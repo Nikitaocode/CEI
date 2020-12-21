@@ -19,10 +19,10 @@ const AppLayout = ({ containerClassnames, children, history }) => {
     const userData = Authservice.getCurrentUser().user
     console.log(userData)
     axios.get("/userData",{params:{id:userData.id}}).then(res=>{
-      console.log(res.data.data)
+      console.log(res.data)
       setUser(res.data.data)
     })
-  },[user])
+  },[])
             
 
   // if not user, then redirect to login page
