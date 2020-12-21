@@ -1,10 +1,12 @@
 import IntlMessages from '../../helpers/IntlMessages';
 import { Colxx, Separator } from '../../components/common/CustomBootstrap';
 import Breadcrumb from '../../containers/navs/Breadcrumb';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import axios from 'axios'
 import { NotificationManager } from '../../components/common/react-notifications';
 import Authservice from "../../AuthHeader/authheader"
+import {UserContext} from "../../Context/UserContext"
+import {useHistory} from "react-router-dom"
 import {
     Row,
     Card,
@@ -22,24 +24,24 @@ import {
 
 const EditProfile = ({ match }) => {
     const [formData, setformData] = useState({})
-    // const { messages } = intl;
-    const [userData,setUserData]= useState({})
-    const [countries, setCountries] = React.useState([])
+    const [user, setUser] = useContext(UserContext)
+    const history = useHistory()
+
     // useEffect(() => {
     //     countryData()
     // }
     // )
-    useEffect(()=>{
-        getuserData()
-    },[])
+    // useEffect(()=>{
+    //     getuserData()
+    // },[])
 
-    const getuserData =()=>{
-        const user = Authservice.getCurrentUser()
-        axios.get("/userData",{params:{id:user.user.id}}).then(res=>{
-            console.log(res.data)
-                setUserData(res.data.data)
-        })
-    }
+    // const getuserData =()=>{
+    //     const user = Authservice.getCurrentUser()
+    //     axios.get("/userData",{params:{id:user.user.id}}).then(res=>{
+    //         console.log(res.data)
+    //             setUserData(res.data.data)
+    //     })
+    // }
     // // useEffect(()=>{
     // //     const user = Authservice.getCurrentUser()
     // //     setUserData(user.user)
@@ -86,7 +88,8 @@ const EditProfile = ({ match }) => {
               );
         }
        else{
-        axios.post("/edit-profile", formData,{params:{id:userData.id}}).then((res) => {
+        axios.post("/edit-profile", formData,{params:{id:user.id}}).then((res) => {
+            setUser(res.data.data)
             NotificationManager.success(
                 res.data.success,
                 'Success',
@@ -95,6 +98,7 @@ const EditProfile = ({ match }) => {
                 null,
                 ''
               );
+              window.location.reload();
         })
        }
     }
@@ -123,7 +127,7 @@ const EditProfile = ({ match }) => {
                                                 </Label>
                                                 <Input
                                                     type="text"
-                                                    defaultValue={userData.firstName}
+                                                    defaultValue={user.firstName}
                                                     name="exampleEmailGrid"
                                                     id="exampleEmailGrid"
                                                     placeholder="First Name"
@@ -141,7 +145,7 @@ const EditProfile = ({ match }) => {
                                                 </Label>
                                                 <Input
                                                     type="text"
-                                                    defaultValue={userData.lastName}
+                                                    defaultValue={user.lastName}
                                                     // name="examplePasswordGrid"
                                                     // id="examplePasswordGrid"
                                                     placeholder="Last Name"
@@ -157,7 +161,7 @@ const EditProfile = ({ match }) => {
                                                     <IntlMessages id="forms.email" />
                                                 </Label>
                                                 <Input
-                                                    defaultValue={userData.email}
+                                                    defaultValue={user.email}
                                                     type="email"
                                                     name="exampleEmailGrid"
                                                     id="exampleEmailGrid"
@@ -175,7 +179,7 @@ const EditProfile = ({ match }) => {
                                                     <IntlMessages id="Phone" />
                                                 </Label>
                                                 <Input
-                                                defaultValue={userData.phone}
+                                                defaultValue={user.phone}
                                                     type="text"
                                                     name="examplePasswordGrid"
                                                     id="examplePasswordGrid"
@@ -192,7 +196,7 @@ const EditProfile = ({ match }) => {
                                                     <IntlMessages id="Company Name" />
                                                 </Label>
                                                 <Input
-                                                defaultValue={userData.company}
+                                                defaultValue={user.company}
                                                     type="text"
                                                     name="exampleAddressGrid"
                                                     id="exampleAddressGrid"
@@ -210,7 +214,7 @@ const EditProfile = ({ match }) => {
                                                     <IntlMessages id="forms.address" />
                                                 </Label>
                                                 <Input
-                                                defaultValue={userData.address}
+                                                defaultValue={user.address}
                                                     type="text"
                                                     name="exampleAddressGrid"
                                                     id="exampleAddressGrid"
@@ -228,7 +232,7 @@ const EditProfile = ({ match }) => {
                                                     <IntlMessages id="City" />
                                                 </Label>
                                                 <Input
-                                                defaultValue={userData.city}
+                                                defaultValue={user.city}
                                                     type="text"
                                                     name="exampleAddress2Grid"
                                                     id="exampleAddress2Grid"
@@ -245,7 +249,7 @@ const EditProfile = ({ match }) => {
                                                     <IntlMessages id="State" />
                                                 </Label>
                                                 <Input
-                                                defaultValue={userData.state}
+                                                defaultValue={user.state}
                                                     type="text"
                                                     name="exampleAddress2Grid"
                                                     id="exampleAddress2Grid"
@@ -261,7 +265,7 @@ const EditProfile = ({ match }) => {
                                                 <Label>
                                                     <IntlMessages id="Country" />
                                                 </Label>
-                                                {/* <Input defaultValue={userData.country} type="select" onChange={(e) => {
+                                                {/* <Input defaultValue={user.country} type="select" onChange={(e) => {
                                                     setformData({ ...formData, country: e.target.value });
                                                 }}>
 
@@ -271,7 +275,7 @@ const EditProfile = ({ match }) => {
                                                     })}
 
                                                 </Input> */}
-                                                {/* <select value={userData.country} onChange={(e) => {
+                                                {/* <select value={user.country} onChange={(e) => {
                                                     setformData({ ...formData, country: e.target.value })
                                                 }}>
                                                 <option>Select</option>
@@ -280,7 +284,7 @@ const EditProfile = ({ match }) => {
                                                     })}
                                                 </select> */}
                                                 <Input
-                                                defaultValue={userData.country}
+                                                defaultValue={user.country}
                                                     type="text"
                                                     name="exampleAddress2Grid"
                                                     id="exampleAddress2Grid"
@@ -298,7 +302,7 @@ const EditProfile = ({ match }) => {
                                                     <IntlMessages id="forms.zip" />
                                                 </Label>
                                                 <Input
-                                                defaultValue={userData.zipcode}
+                                                defaultValue={user.zipcode}
                                                     type="text"
                                                     name="exampleZipGrid"
                                                     id="exampleZipGrid"

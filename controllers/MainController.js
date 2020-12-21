@@ -314,9 +314,10 @@ const editprofile =(req,res)=>{
     console.log(req.query)
     console.log(req.body)
     user.update(req.body,{where:{id:req.query.id}}).then(response=>{
-        // console.log(response)
+        const data = user.findOne({where:{id:req.query.id}})
         res.status(200).json({
-            success:"Successfully updated"
+            success:"Successfully updated",
+            data:data
         })
     }).catch(err=>{
         console.log(err)

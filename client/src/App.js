@@ -14,6 +14,7 @@ import { NotificationContainer } from './components/common/react-notifications';
 import { isMultiColorActive, adminRoot } from './constants/defaultValues';
 import { getDirection } from './helpers/Utils';
 import { ProtectedRoute, UserRole } from './helpers/authHelper';
+import {UserProvider} from "./Context/UserContext"
 
 const ViewHome = React.lazy(() =>
   import(/* webpackChunkName: "views" */ './views/home')
@@ -56,11 +57,13 @@ class App extends React.Component {
           messages={currentAppLocale.messages}
         >
           <>
+          <UserProvider>
             <NotificationContainer />
             {isMultiColorActive && <ColorSwitcher />}
             <Suspense fallback={<div className="loading" />}>
               <Router>
                 <Switch>
+                
                   <ProtectedRoute
                     path={adminRoot}
                     component={ViewApp}
@@ -92,8 +95,11 @@ class App extends React.Component {
                 </Switch>
               </Router>
             </Suspense>
+            </UserProvider>
           </>
         </IntlProvider>
+        
+
       </div>
     );
   }

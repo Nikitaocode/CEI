@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react';
+import React,{useEffect,useState,useContext} from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -7,18 +7,22 @@ import Sidebar from '../containers/navs/Sidebar';
 import Footer from '../containers/navs/Footer';
 import Authservice from "../AuthHeader/authheader"
 import { NotificationManager } from '../components/common/react-notifications';
+import {UserContext} from "../Context/UserContext"
 
 import axios from 'axios'
 const AppLayout = ({ containerClassnames, children, history }) => {
-  const [userData,setUserData]= useState({})
+  const [user, setUser] = useContext(UserContext)
+  
+  // GET THE USER DATA
   useEffect(()=>{
   getuserData()
   },[])
   const getuserData =()=>{
-    const user = Authservice.getCurrentUser()
-    axios.get("/userData",{params:{id:user.user.id}}).then(res=>{
-        console.log(res.data)
-            setUserData(res.data.data)
+    const userData = Authservice.getCurrentUser().user
+    console.log(userData)
+    axios.get("/userData",{params:{id:userData.id}}).then(res=>{
+        console.log("User is ",res.data.data)
+            setUser(res.data.data)
     })
 }
   // if not user, then redirect to login page
@@ -30,21 +34,14 @@ const AppLayout = ({ containerClassnames, children, history }) => {
       }
       else{
         console.log("loggedd in");
-        // NotificationManager.success(
-        //   "Successfully logged in",
-        //   'Success',
-        //   3000,
-        //   null,
-        //   null,
-        //   ''
-        // );
+        
       }
     })
   })
   
   return (
     <div id="app-container" className={containerClassnames}>
-      <TopNav history={history} user={userData}/>
+      <TopNav history={history} user={user}/>
       <Sidebar />
       <main>
         <div className="container-fluid">{children}</div>
