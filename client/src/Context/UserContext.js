@@ -4,7 +4,7 @@ import Authservice from "../AuthHeader/authheader"
 
 
 export const UserContext = createContext("")
-const userData = Authservice.getCurrentUser().user
+// const userData = Authservice.getCurrentUser().user
 
 export const UserProvider = (props) => {
     const [user,setUser]=useState({})
