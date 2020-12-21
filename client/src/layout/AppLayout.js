@@ -14,21 +14,18 @@ const AppLayout = ({ containerClassnames, children, history }) => {
   const [user, setUser] = useContext(UserContext)
   
   // GET THE USER DATA
+  
   useEffect(()=>{
-  getuserData()
-  },[])
-  const getuserData =()=>{
     const userData = Authservice.getCurrentUser().user
     console.log(userData)
-    axios.get("/userData",{params:{id:userData.id}}).then(res=>{
-        console.log("User is ",res.data.data)
-            setUser(res.data.data)
-    })
-}
+    setUser(userData)
+  },[])
+            
+
   // if not user, then redirect to login page
   useEffect(() => {
     axios.get("/dashboard-page", { headers: Authservice.authHeader() }).then(res => {
-      console.log(res.data)
+      console.log("Response is",res.data)
       if(res.data.error){
         history.push("/user/login")
       }
