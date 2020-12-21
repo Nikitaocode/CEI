@@ -15,6 +15,10 @@ const EcommerceDefault = React.lazy(() =>
   import(/* webpackChunkName: "dashboard-ecommerce" */ './ecommerce')
 );
 
+const ManageUsersDefault = React.lazy(() =>
+  import(/* webpackChunkName: "dashboard-ecommerce" */ './manageUsers')
+);
+
 const Dashboards = ({ match }) => (
   <Suspense fallback={<div className="loading" />}>
     <Switch>
@@ -34,6 +38,10 @@ const Dashboards = ({ match }) => (
       <Route
         path={`${match.url}/analytics`}
         render={(props) => <AnalyticsDefault {...props} />}
+      />
+      <Route
+        path={`${match.url}/manage-users`}
+        render={(props) => <ManageUsersDefault {...props} />}
       />
       {/* 
       <ProtectedRoute

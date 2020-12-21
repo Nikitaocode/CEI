@@ -12,14 +12,14 @@ const data = [
       {
         icon: 'simple-icon-briefcase',
         label: 'menu.default',
-        to: `${adminRoot}/dashboards/`,
+        to: `${adminRoot}/dashboards/main`,
         // roles: [UserRole.Admin],
 
       },
       {
         icon: 'simple-icon-pie-chart',
         label: 'menu.analytics',
-        to: `${adminRoot}/dashboards/analytics`,
+        to: `${adminRoot}/dashboards/manage-users`,
         // roles: [UserRole.Admin],
 
       },
@@ -34,6 +34,13 @@ const data = [
         icon: 'simple-icon-doc',
         label: 'menu.content',
         to: `${adminRoot}/dashboards/content`,
+        // roles: [UserRole.Editor],
+
+      },
+      {
+        icon: 'simple-icon-doc',
+        label: 'Manage-users',
+        to: `${adminRoot}/dashboards/manage-users`,
         // roles: [UserRole.Editor],
 
       },
