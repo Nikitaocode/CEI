@@ -5,6 +5,8 @@ import { Nav, NavItem, Collapse } from 'reactstrap';
 import { NavLink, withRouter } from 'react-router-dom';
 import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import {UserContext} from "../../Context/UserContext"
+
 
 import IntlMessages from '../../helpers/IntlMessages';
 
@@ -16,9 +18,16 @@ import {
 
 } from '../../redux/actions';
 
-import menuItems from '../../constants/menu';
+import userManagement from '../../constants/menu';
+const getmenu =async ()=>{
+  const data = await userManagement()
+  return
+
+}
+const menuItems = userManagement()
 
 class Sidebar extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -245,6 +254,7 @@ class Sidebar extends Component {
       window.scrollTo(0, 0);
     }
     this.handleProps();
+    
   }
 
   componentDidMount() {
@@ -252,11 +262,13 @@ class Sidebar extends Component {
     this.handleWindowResize();
     this.handleProps();
     this.setSelectedLiActive(this.setHasSubItemStatus);
+    
   }
 
   componentWillUnmount() {
     this.removeEvents();
     window.removeEventListener('resize', this.handleWindowResize);
+    
   }
 
   openSubMenu = (e, menuItem) => {

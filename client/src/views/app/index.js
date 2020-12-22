@@ -39,7 +39,7 @@ const App = ({ match }) => {
               render={(props) => <Dashboards {...props} />}
             />
             <Route
-              path={`${match.url}/applications`}
+              path={`${match.url}/inventory`}
               render={(props) => <Applications {...props} />}
             />
             {/* <ProtectedRoute
