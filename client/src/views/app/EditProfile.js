@@ -98,7 +98,7 @@ const EditProfile = ({ match }) => {
                 null,
                 ''
               );
-              history.push("/app/edit-profile")
+            //   window.location.reload();
         })
        }
     }
