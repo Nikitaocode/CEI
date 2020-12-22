@@ -113,7 +113,7 @@ const SurveyApp = ({
         <Colxx xxs="12">
           <div className="mb-2">
             <h1>
-              <IntlMessages id="menu.survey" />
+              <IntlMessages id="Variants" />
             </h1>
 
             {loading && (

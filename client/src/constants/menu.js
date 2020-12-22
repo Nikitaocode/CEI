@@ -8,6 +8,11 @@ function userManagment(){
     return [
       {
         id: 'dashboards',
+        icon: 'simple-icon-doc',
+        label: 'Dashboard',
+        to: `${adminRoot}/dashboards`},
+      {
+        id: 'users',
         icon: 'simple-icon-user-following',
         label: 'Manage Users',
         to: `${adminRoot}/dashboards`,
@@ -209,12 +214,12 @@ function userManagment(){
           {
             icon: 'simple-icon-check',
             label: 'Products',
-            to: `${adminRoot}/inventory/todo`,
+            to: `${adminRoot}/inventory/products`,
           },
           {
             icon: 'simple-icon-calculator',
             label: 'Variants',
-            to: `${adminRoot}/inventory/survey`,
+            to: `${adminRoot}/inventory/variants`,
           },
           // {
           //   icon: 'simple-icon-bubbles',
@@ -408,7 +413,11 @@ function userManagment(){
   }
   else
     return [
-      
+      {
+        id: 'dashboards',
+        icon: 'simple-icon-doc',
+        label: 'Dashboard',
+        to: `${adminRoot}/dashboards`},
       // {
       //   id: 'pages',
       //   icon: 'iconsminds-digital-drawing',
@@ -568,12 +577,12 @@ function userManagment(){
           {
             icon: 'simple-icon-check',
             label: 'Products',
-            to: `${adminRoot}/inventory/todo`,
+            to: `${adminRoot}/inventory/products`,
           },
           {
             icon: 'simple-icon-calculator',
             label: 'Variants',
-            to: `${adminRoot}/inventory/survey`,
+            to: `${adminRoot}/inventory/variants`,
           },
           // {
           //   icon: 'simple-icon-bubbles',
@@ -768,5 +777,5 @@ function userManagment(){
 
 
 
-// const data = userManagment()
+const data = userManagment()
 export default userManagment;

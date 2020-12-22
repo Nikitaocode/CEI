@@ -17,9 +17,9 @@ const Chat = React.lazy(() =>
 const Applications = ({ match }) => (
   <Suspense fallback={<div className="loading" />}>
     <Switch>
-      <Redirect exact from={`${match.url}/`} to={`${match.url}/todo`} />
+      <Redirect exact from={`${match.url}/`} to={`${match.url}/products`} />
       <Route
-        path={`${match.url}/todo`}
+        path={`${match.url}/products`}
         render={(props) => <Todo {...props} />}
       />
       <Route
@@ -28,7 +28,7 @@ const Applications = ({ match }) => (
         isExact
       />
       <Route
-        path={`${match.url}/survey`}
+        path={`${match.url}/variants`}
         render={(props) => <Survey {...props} />}
         isExact
       />
