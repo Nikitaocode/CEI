@@ -183,7 +183,9 @@ const TopNav = ({
     localStorage.removeItem("user");
     history.push("/user/login")
   };
-
+const editProfile=()=>{
+  history.push("/app/edit-profile")
+}
   const menuButtonClick = (e, _clickCount, _conClassnames) => {
     e.preventDefault();
 
@@ -299,7 +301,7 @@ const TopNav = ({
               </span>
             </DropdownToggle>
             <DropdownMenu className="mt-3" right>
-              <DropdownItem onClick={()=>window.location.href='/app/edit-profile'}>Manage Account</DropdownItem>
+              <DropdownItem onClick={editProfile}>Manage Account</DropdownItem>
               {/* <DropdownItem>Features</DropdownItem>
               <DropdownItem>History</DropdownItem>
               <DropdownItem>Support</DropdownItem> */}
