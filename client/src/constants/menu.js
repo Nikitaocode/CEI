@@ -15,9 +15,9 @@ function userManagment(){
         id: 'users',
         icon: 'simple-icon-user-following',
         label: 'Manage Users',
-        to: `${adminRoot}/dashboards`,
+        to: `${adminRoot}/dashboards/manage-users`,
         // roles: [UserRole.Admin, UserRole.Editor],
-        subs: [
+        // subs: [
           // {
           //   icon: 'simple-icon-briefcase',
           //   label: 'menu.default',
@@ -46,14 +46,14 @@ function userManagment(){
           //   // roles: [UserRole.Editor],
     
           // },
-          {
-            icon: 'simple-icon-doc',
-            label: 'Manage-users',
-            to: `${adminRoot}/dashboards/manage-users`,
-            // roles: [UserRole.Editor],
+        //   {
+        //     icon: 'simple-icon-doc',
+        //     label: 'Manage-users',
+        //     to: `${adminRoot}/dashboards/manage-users`,
+        //     // roles: [UserRole.Editor],
     
-          },
-        ],
+        //   },
+        // ],
       },
       // {
       //   id: 'pages',
