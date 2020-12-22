@@ -16,36 +16,35 @@ const AppLayout = ({ containerClassnames, children, history }) => {
   // GET THE USER DATA
   
   useEffect(()=>{
-    // const userData = Authservice.getCurrentUser().user
-    // console.log(userData)
-    // setUser(userData)
+    const getuserData =async ()=>{
+      const user = Authservice.getCurrentUser()
+      await axios.get("/api/userData",{params:{id:user.user.id}}).then(res=>{
+          console.log(res.data)
+              setUser(res.data.data)
+      })
+    }  
     getuserData()
   },[])
 
-    const getuserData =async ()=>{
-        const user = Authservice.getCurrentUser()
-        await axios.get("/userData",{params:{id:user.user.id}}).then(res=>{
-            console.log(res.data)
-                setUser(res.data.data)
-        })
-      }    
+     
 
   // if not user, then redirect to login page
   useEffect(() => {
+    const checkAuthentication=async ()=>{
+      await axios.get("/api/dashboard-page", { headers: Authservice.authHeader() }).then(res => {
+        console.log("Response is",res.data)
+        if(res.data.error){
+          history.push("/user/login")
+        }
+        else if(res.data.success){
+          console.log("loggedd in");
+          
+        }
+    })
+  }
     checkAuthentication()
-  })
-  const checkAuthentication=async ()=>{
-    await axios.get("/dashboard-page", { headers: Authservice.authHeader() }).then(res => {
-      console.log("Response is",res.data)
-      if(res.data.error){
-        history.push("/user/login")
-      }
-      else if(res.data.success){
-        console.log("loggedd in");
-        
-      }
-  })
-}
+  },[])
+  
   
   return (
     <div id="app-container" className={containerClassnames}>

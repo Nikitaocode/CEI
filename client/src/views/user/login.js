@@ -44,7 +44,7 @@ const Login = ({ history, loading, error, loginUserAction }) => {
   // WHEN GOOGLE LOGIN IS SUCCESSFULL
   const onSuccessGoogle = (response) => {
     console.log(response);
-    axios.post("/googleLogin",{tokenId:response.tokenId}).then(response=>{
+    axios.post("/api/googleLogin",{tokenId:response.tokenId}).then(response=>{
       if (response.data.token) {
         localStorage.setItem("user", JSON.stringify(response.data));
         // setAlert({ success: response.data.success })
@@ -80,7 +80,7 @@ const Login = ({ history, loading, error, loginUserAction }) => {
 const onUserLogin=(e)=>{
   e.preventDefault()
     const data = formData
-    axios.post("/login", data).then((response => {
+    axios.post("/api/login", data).then((response => {
       console.log(response.data);
       if (response.data.token) {
         localStorage.setItem("user", JSON.stringify(response.data));

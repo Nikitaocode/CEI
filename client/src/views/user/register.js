@@ -25,7 +25,7 @@ const Register = ({ history }) => {
   const onUserRegister = (e) => {
     e.preventDefault()
     const data = formData
-    axios.post("/signup", data).then((result => {
+    axios.post("/api/signup", data).then((result => {
       console.log(result.data);
       if (result.data.error) {
         NotificationManager.warning(

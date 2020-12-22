@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6298135e85ac0c5e5297c8f73ee0b7bb",
+    "revision": "5d28aad65711bfadc3695a1298e40fb1",
     "url": "/index.html"
   },
   {
@@ -120,7 +120,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/dashboard-default.bdf27a9f.chunk.css"
   },
   {
-    "revision": "81689ca4d9698fde360a",
+    "revision": "bef30b16df7c13c4029b",
     "url": "/static/css/dashboard-ecommerce.82b7737b.chunk.css"
   },
   {
@@ -400,8 +400,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/applications.e6b4cb4e.chunk.js"
   },
   {
-    "revision": "2f10f2ec89fc3a537103",
-    "url": "/static/js/blank-page.3a04a100.chunk.js"
+    "revision": "37e3f28c1575217a9282",
+    "url": "/static/js/blank-page.b7045eb4.chunk.js"
   },
   {
     "revision": "0dba2be5e6b58b2c7328",
@@ -500,12 +500,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/dashboard-default.e9b977e3.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "81689ca4d9698fde360a",
-    "url": "/static/js/dashboard-ecommerce.3ba49c71.chunk.js"
+    "revision": "bef30b16df7c13c4029b",
+    "url": "/static/js/dashboard-ecommerce.1bc4c7ec.chunk.js"
   },
   {
     "revision": "efcca69e6881d499f081e5e8742c5eb8",
-    "url": "/static/js/dashboard-ecommerce.3ba49c71.chunk.js.LICENSE.txt"
+    "url": "/static/js/dashboard-ecommerce.1bc4c7ec.chunk.js.LICENSE.txt"
   },
   {
     "revision": "12898774911327f77fa0",
@@ -628,8 +628,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/profile-social.bcc1ccfc.chunk.js"
   },
   {
-    "revision": "2493d963dd7d9edbc7e3",
-    "url": "/static/js/runtime-main.9188b264.js"
+    "revision": "30ce2ebdb619c35e14cc",
+    "url": "/static/js/runtime-main.a9e2ee97.js"
   },
   {
     "revision": "05e8e6fd381fb36f99ed",
@@ -644,24 +644,24 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/ui.30ad9a68.chunk.js"
   },
   {
-    "revision": "7a2bdeaea0eb1c33eefe",
-    "url": "/static/js/user-forgot-password.8cfadb39.chunk.js"
+    "revision": "9f485f8cb2a4c0c0ff09",
+    "url": "/static/js/user-forgot-password.7704053a.chunk.js"
   },
   {
-    "revision": "7e80446be0bd1d103bd3",
-    "url": "/static/js/user-login.6c7043d0.chunk.js"
+    "revision": "50f03bc85f4759b8f179",
+    "url": "/static/js/user-login.d142c2bd.chunk.js"
   },
   {
-    "revision": "d968f5adfa464f2bee15",
-    "url": "/static/js/user-register.18913659.chunk.js"
+    "revision": "11b96ec1d1bd8923f13c",
+    "url": "/static/js/user-register.0fe8e58e.chunk.js"
   },
   {
-    "revision": "79f346dee7cf2e00228a",
-    "url": "/static/js/user-reset-password.c0ab7a6a.chunk.js"
+    "revision": "f4473d0c9f2710abe1cc",
+    "url": "/static/js/user-reset-password.d0e1f772.chunk.js"
   },
   {
-    "revision": "93bfb0743b874e623172",
-    "url": "/static/js/views-app.605df115.chunk.js"
+    "revision": "f227064d31b149728d59",
+    "url": "/static/js/views-app.11330320.chunk.js"
   },
   {
     "revision": "d3dc6579bdcd21ba380a",

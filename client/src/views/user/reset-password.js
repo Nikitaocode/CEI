@@ -45,7 +45,7 @@ const ResetPassword = ({
   const changePassword = (e) => {
     // WHILE EXPIRATION TIME IS GREATER THAN CURRENT TIME
     if (formData.password == formData.ConfirmPassword) {
-      axios.post("/change-password", formData).then(res => {
+      axios.post("/api/change-password", formData).then(res => {
         console.log(res.data);
         if (res.data.success) {
           NotificationManager.success(res.data.success, 'Success', 3000, null, null, '');

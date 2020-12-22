@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
-
 import axios from 'axios';
-
 import { servicePath } from "../../../constants/defaultValues";
-
 import ListPageHeading from '../../../containers/pages/ListPageHeading';
 import AddNewModal from '../../../containers/pages/AddNewModal';
 import ListPageListing from '../../../containers/pages/ListPageListing';
@@ -57,7 +54,7 @@ const ManageUsers = ({ intl, match }) => {
       async function fetchData() {
         await axios
           .get(
-           "/users"
+           "/api/users"
           )
           .then((res) => {
             console.log(res.data)

@@ -38,7 +38,7 @@ const styles = {
   // SEND THE OTP
   const SendOtp = () => {
     console.log(formData);
-    axios.post("/send-OTP", formData).then(res => {
+    axios.post("/api/send-OTP", formData).then(res => {
       console.log(res.data);
       if (res.data.success) {
         setResponse({ email: res.data.email, otp: res.data.otp, expiration: res.data.expiration })

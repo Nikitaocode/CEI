@@ -11,9 +11,8 @@ app.get('*',(req,res)=>{
 // }
 const port = process.env.PORT || 5000
 app.use(express.json());
-app.use("/", mainRoutes)
+app.use("/api", mainRoutes)
 app.listen(port, () => console.log(`App is running on  ${port}!`))
-// require("./controllers/passport-setup")
 const db = require('./config/database.js')
 db.authenticate().then(() => {
   console.log("Connected to db");

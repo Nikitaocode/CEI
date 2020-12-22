@@ -88,7 +88,7 @@ const EditProfile = ({ match }) => {
               );
         }
        else{
-        axios.post("/edit-profile", formData,{params:{id:user.id}}).then((res) => {
+        axios.post("/api/edit-profile", formData,{params:{id:user.id}}).then((res) => {
             setUser(res.data.data)
             NotificationManager.success(
                 res.data.success,
