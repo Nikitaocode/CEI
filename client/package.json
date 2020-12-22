@@ -89,5 +89,5 @@
     "node-sass": "^4.14.1",
     "prettier": "^2.0.5"
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://142.93.24.32:5000"
 }
