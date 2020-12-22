@@ -187,6 +187,7 @@ const dashboard = (req, res) => {
             res.json({ error: "Did not match" })
         }
         else {
+            console.log("success")
             res.json({
                 success: "verified",
                 data: req.user

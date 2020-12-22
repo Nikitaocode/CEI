@@ -55,7 +55,7 @@ const ManageUsers = ({ intl, match }) => {
   
     useEffect(() => {
       async function fetchData() {
-        axios
+        await axios
           .get(
            "/users"
           )

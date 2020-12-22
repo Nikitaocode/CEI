@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e504c7021cf2d947e9da2e3174977b5c",
+    "revision": "6298135e85ac0c5e5297c8f73ee0b7bb",
     "url": "/index.html"
   },
   {
@@ -120,7 +120,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/dashboard-default.bdf27a9f.chunk.css"
   },
   {
-    "revision": "15e1c5811a4b5e3baccd",
+    "revision": "81689ca4d9698fde360a",
     "url": "/static/css/dashboard-ecommerce.82b7737b.chunk.css"
   },
   {
@@ -500,12 +500,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/dashboard-default.e9b977e3.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "15e1c5811a4b5e3baccd",
-    "url": "/static/js/dashboard-ecommerce.48b554a1.chunk.js"
+    "revision": "81689ca4d9698fde360a",
+    "url": "/static/js/dashboard-ecommerce.3ba49c71.chunk.js"
   },
   {
     "revision": "efcca69e6881d499f081e5e8742c5eb8",
-    "url": "/static/js/dashboard-ecommerce.48b554a1.chunk.js.LICENSE.txt"
+    "url": "/static/js/dashboard-ecommerce.3ba49c71.chunk.js.LICENSE.txt"
   },
   {
     "revision": "12898774911327f77fa0",
@@ -600,8 +600,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/pages.f7574381.chunk.js"
   },
   {
-    "revision": "60cb68e0c1da2c6d1124",
-    "url": "/static/js/product-data-list.11d4a2fc.chunk.js"
+    "revision": "e8cb01f6b9dc5ad1a53a",
+    "url": "/static/js/product-data-list.2b3d2334.chunk.js"
   },
   {
     "revision": "f6368445c2a1bd17bd8a",
@@ -628,8 +628,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/profile-social.bcc1ccfc.chunk.js"
   },
   {
-    "revision": "7a45a363a152e9075876",
-    "url": "/static/js/runtime-main.6ab9ddb1.js"
+    "revision": "2493d963dd7d9edbc7e3",
+    "url": "/static/js/runtime-main.9188b264.js"
   },
   {
     "revision": "05e8e6fd381fb36f99ed",
@@ -660,8 +660,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/user-reset-password.c0ab7a6a.chunk.js"
   },
   {
-    "revision": "6c89ef656a4a943e01f0",
-    "url": "/static/js/views-app.b0fb877e.chunk.js"
+    "revision": "93bfb0743b874e623172",
+    "url": "/static/js/views-app.605df115.chunk.js"
   },
   {
     "revision": "d3dc6579bdcd21ba380a",
