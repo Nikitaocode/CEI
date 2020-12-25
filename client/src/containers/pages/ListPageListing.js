@@ -20,6 +20,7 @@ const ListPageListing = ({
   onContextMenuClick,
   onContextMenu,
   onChangePage,
+  deleteUser
 }) => {
   return (
     <Row>
@@ -53,6 +54,7 @@ const ListPageListing = ({
             isSelect={selectedItems.includes(product.id)}
             onCheckItem={onCheckItem}
             collect={collect}
+            deleteUser={deleteUser}
           />
         );
       })}

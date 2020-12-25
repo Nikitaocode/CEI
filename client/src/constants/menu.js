@@ -4,7 +4,7 @@ import Authservice from "../AuthHeader/authheader"
 const userData = Authservice.getCurrentUser().user
 
 function userManagment(){
-  if(userData.email=="superadmin@gmail.com"){
+  if(userData.role=="admin"){
     return [
       {
         id: 'dashboards',
@@ -15,7 +15,7 @@ function userManagment(){
         id: 'users',
         icon: 'simple-icon-user-following',
         label: 'Manage Users',
-        to: `${adminRoot}/dashboards/manage-users`,
+        to: `${adminRoot}/dashboards/manage-users`
         // roles: [UserRole.Admin, UserRole.Editor],
         // subs: [
           // {

@@ -1,8 +1,8 @@
 const { Sequelize } = require('sequelize');
 
 
-module.exports = new Sequelize('CEI','postgres','cei#newroot20',{
-  host:'142.93.24.32',
+module.exports = new Sequelize('CEI','postgres','db&new20Pst',{
+  host:'64.225.23.236',
   dialect: 'postgres',
   operatorsAliases:false,
   pool:{

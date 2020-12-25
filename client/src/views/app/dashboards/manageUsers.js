@@ -70,7 +70,12 @@ const ManageUsers = ({ intl, match }) => {
       }
       fetchData();
     }, []);
-  
+    const deleteUser = (e)=>{
+      e.preventDefault()
+      axios.post("/api/delete-user",null,{params:{id:selectedItems}}).then(res=>{
+        console.log(res)
+      })
+  }
     const onCheckItem = (event, id) => {
       if (
         event.target.tagName === 'A' ||
@@ -193,6 +198,7 @@ const ManageUsers = ({ intl, match }) => {
             onContextMenuClick={onContextMenuClick}
             onContextMenu={onContextMenu}
             onChangePage={setCurrentPage}
+            deleteUser={deleteUser}
           />
         </div>
       </>

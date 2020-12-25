@@ -16,4 +16,5 @@ router.route("/countries").get(UtilitiesController.countries)
 router.route("/edit-profile").post(Maincontroller.editprofile)
 router.route("/userData").get(Maincontroller.userData)
 router.route("/users").get(UserManagementController.users)
+router.route("/delete-user").post(UserManagementController.deleteUser)
 module.exports = router;

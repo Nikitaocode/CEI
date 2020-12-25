@@ -51,6 +51,9 @@ const User = db.define('users', {
     
     company:{
         type:Sequelize.STRING,
+    },
+    role:{
+        type:Sequelize.STRING
     }
 });
 db

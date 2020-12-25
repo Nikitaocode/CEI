@@ -1,19 +1,24 @@
 const user = require("../models/User")
 
 const users = async (req,res )=>{
-    const email= "superadmin@gmail.com"
-    user.findAll({}).then(response=>{
+    user.findAll({where:{role:null}}).then(response=>{
         var users =[]
         console.log(response)
         for(i of response){
-            if(i.dataValues.email!=email){
                 users.push(i.dataValues)
             }
-        }
-        // console.log(users)
+        console.log(users)
         res.json({
             data:users
         })
     })
 }
-module.exports ={users:users}
+
+
+const deleteUser =async (req,res)=>{
+    console.log(req.query)
+}
+
+module.exports ={users:users,
+    deleteUser:deleteUser
+}

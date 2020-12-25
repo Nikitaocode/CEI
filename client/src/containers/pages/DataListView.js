@@ -4,22 +4,19 @@ import { NavLink } from 'react-router-dom';
 import classnames from 'classnames';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { Colxx } from '../../components/common/CustomBootstrap';
-import Button from 'reactstrap/lib/Button';
 import {FaEdit,FaTrash, FaEye} from 'react-icons/fa'
+import axios from 'axios';
 
-const DataListView = ({ product, isSelect, collect, onCheckItem }) => {
+const DataListView = ({ product, isSelect, collect, onCheckItem,deleteUser }) => {
   const edit=(e)=>{
     e.preventDefault()
     console.log("hi");
   }
+  
   return (
     <Colxx xxs="12" className="mb-3">
       <ContextMenuTrigger id="menu_id" data={product.id} collect={collect}>
         <Card
-          onClick={(event) => onCheckItem(event, product.id)}
-          className={classnames('d-flex flex-row', {
-            active: isSelect,
-          })}
         >
           <div className="pl-2 d-flex flex-grow-1 min-width-zero">
           <div className="custom-control custom-checkbox pl-1 align-self-center pr-4">
@@ -29,6 +26,9 @@ const DataListView = ({ product, isSelect, collect, onCheckItem }) => {
                 id={`check_${product.id}`}
                 checked={isSelect}
                 onChange={(event) => onCheckItem(event, product.id)}
+          className={classnames('d-flex flex-row', {
+            active: isSelect,
+          })}
                 label=""
               />
             </div>
@@ -42,7 +42,7 @@ const DataListView = ({ product, isSelect, collect, onCheckItem }) => {
               <p  className="mb-1 text-muted text-small w-20 w-sm-100 list-item-heading"> {product.email}</p>
               <FaEdit onClick={edit} style={{cursor:'pointer'}} className="mb-1 w-2 w-sm-100 list-item-heading "/>
               <FaEye  style={{cursor:'pointer'}} className="mb-1 w-2 w-sm-100 list-item-heading"/>
-              <FaTrash  style={{cursor:'pointer'}} className="mb-1 w-2 w-sm-100 list-item-heading"/>
+              <FaTrash onClick={deleteUser} style={{cursor:'pointer'}} className="mb-1 w-2 w-sm-100 list-item-heading"/>
             </div>
             
           </div>

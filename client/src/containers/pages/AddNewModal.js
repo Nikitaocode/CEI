@@ -8,6 +8,8 @@ import {
   ModalFooter,
   Input,
   Label,
+  Row,
+  Col
 } from 'reactstrap';
 import Select from 'react-select';
 import CustomSelectInput from '../../components/common/CustomSelectInput';
@@ -22,13 +24,25 @@ const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
       backdrop="static"
     >
       <ModalHeader toggle={toggleModal}>
-        <IntlMessages id="pages.add-new-modal-title" />
+        <IntlMessages id="Add New User" />
       </ModalHeader>
       <ModalBody>
+        <Row>
+        <Col className="sm-6">
         <Label>
-          <IntlMessages id="pages.product-name" />
+          <IntlMessages id="First name" />
         </Label>
         <Input />
+
+        </Col>
+        <Col className="sm-6">
+        <Label>
+          <IntlMessages id="Last name" />
+        </Label>
+        <Input />
+
+        </Col>
+        </Row>
         <Label className="mt-4">
           <IntlMessages id="pages.category" />
         </Label>
