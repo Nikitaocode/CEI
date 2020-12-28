@@ -21,6 +21,16 @@ import { NotificationManager } from '../../components/common/react-notifications
 import axios  from "axios"
 const Register = ({ history }) => {
   const [formData, setformData] = useState({})
+  //VALIDATE PASSWORD
+  const validatePassword = (value) => {
+    let error;
+    if (!value) {
+      error = 'Please enter your password';
+    } else if (value.length < 8) {
+      error = 'Value must be longer than 8 characters';
+    }
+    return error;
+  };
   // SUBMIT FORM HANDLER
   const onUserRegister = (e) => {
     e.preventDefault()
@@ -72,7 +82,7 @@ const Register = ({ history }) => {
                 <Label>
                   <IntlMessages id="Firstname" />
                 </Label>
-                <Input type="name" onChange={(e) => {
+                <Input  type="name" onChange={(e) => {
                     setformData({ ...formData, firstName: e.target.value });
                   }} />
               </FormGroup>
@@ -100,7 +110,7 @@ const Register = ({ history }) => {
                 <Label>
                   <IntlMessages id="user.password" />
                 </Label>
-                <Input type="password" onChange={(e) => {
+                <Input validate={validatePassword} type="password" onChange={(e) => {
                     setformData({ ...formData, password: e.target.value });
                   }}/>
               </FormGroup>

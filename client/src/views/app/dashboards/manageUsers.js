@@ -5,6 +5,7 @@ import ListPageHeading from '../../../containers/pages/ListPageHeading';
 import AddNewModal from '../../../containers/pages/AddNewModal';
 import ListPageListing from '../../../containers/pages/ListPageListing';
 import useMousetrap from '../../../hooks/use-mousetrap';
+import { FaEthereum } from 'react-icons/fa';
 const getIndex = (value, arr, prop) => {
     for (let i = 0; i < arr.length; i += 1) {
       if (arr[i][prop] === value) {
@@ -24,9 +25,8 @@ const getIndex = (value, arr, prop) => {
   const pageSizes = [4, 8, 12, 20];
   
   const categories = [
-    { label: 'Cakes', value: 'Cakes', key: 0 },
-    { label: 'Cupcakes', value: 'Cupcakes', key: 1 },
-    { label: 'Desserts', value: 'Desserts', key: 2 },
+    { label: 'User', value: 'user', key: 0 },
+    { label: 'Admin', value: 'admin', key: 1 },
   ];
 const ManageUsers = ({ intl, match }) => {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -57,7 +57,7 @@ const ManageUsers = ({ intl, match }) => {
            "/api/users"
           )
           .then((res) => {
-            console.log(res.data)
+            // console.log(res.data)
             return res.data
           })
           .then((data) => {
@@ -70,12 +70,7 @@ const ManageUsers = ({ intl, match }) => {
       }
       fetchData();
     }, []);
-    const deleteUser = (e)=>{
-      e.preventDefault()
-      axios.post("/api/delete-user",null,{params:{id:selectedItems}}).then(res=>{
-        console.log(res)
-      })
-  }
+   
     const onCheckItem = (event, id) => {
       if (
         event.target.tagName === 'A' ||
@@ -146,7 +141,7 @@ const ManageUsers = ({ intl, match }) => {
       setSelectedItems([]);
       return false;
     });
-  
+   
     const startIndex = (currentPage - 1) * selectedPageSize;
     const endIndex = currentPage * selectedPageSize;
   
@@ -182,11 +177,12 @@ const ManageUsers = ({ intl, match }) => {
             orderOptions={orderOptions}
             pageSizes={pageSizes}
             toggleModal={() => setModalOpen(!modalOpen)}
+            selectedItems={selectedItems}
           />
           <AddNewModal
             modalOpen={modalOpen}
             toggleModal={() => setModalOpen(!modalOpen)}
-            // categories={categories}
+            categories={categories}
           />
           <ListPageListing
             items={items}
@@ -198,7 +194,7 @@ const ManageUsers = ({ intl, match }) => {
             onContextMenuClick={onContextMenuClick}
             onContextMenu={onContextMenu}
             onChangePage={setCurrentPage}
-            deleteUser={deleteUser}
+            // deleteUser={deleteUser}
           />
         </div>
       </>

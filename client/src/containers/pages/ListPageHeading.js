@@ -12,10 +12,16 @@ import {
   Collapse,
 } from 'reactstrap';
 import { injectIntl } from 'react-intl';
-
 import { Colxx, Separator } from '../../components/common/CustomBootstrap';
 import Breadcrumb from '../navs/Breadcrumb';
 import IntlMessages from '../../helpers/IntlMessages';
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap';
+import axios from 'axios'
 
 import {
   DataListIcon,
@@ -43,12 +49,24 @@ const ListPageHeading = ({
   pageSizes,
   toggleModal,
   heading,
+  selectedItems
+  
 }) => {
   const [dropdownSplitOpen, setDropdownSplitOpen] = useState(false);
   const [displayOptionsIsOpen, setDisplayOptionsIsOpen] = useState(false);
+  const [modalBasic, setModalBasic] = useState(false);
+  const deleteUsers =(e)=>{
+    console.log("hi")
+    axios.post("/api/delete-user",null,{params:{id:selectedItems}}).then(res=>{
+      console.log(res.data)
+      setModalBasic(false)
+      window.location.reload()
+    })
+  }
   const { messages } = intl;
 
   return (
+    <>
     <Row>
       <Colxx xxs="12">
         <div className="mb-2">
@@ -95,8 +113,9 @@ const ListPageHeading = ({
                 className="dropdown-toggle-split btn-lg"
               />
               <DropdownMenu right>
-                <DropdownItem>
-                  <IntlMessages id="pages.delete" />
+                <DropdownItem onClick={()=>setModalBasic(true)}>
+                <span >Delete</span>
+                  {/* <IntlMessages onClick={()=>setModalBasic(true)} id="pages.delete" /> */}
                 </DropdownItem>
                 <DropdownItem>
                   <IntlMessages id="pages.another-action" />
@@ -205,6 +224,23 @@ const ListPageHeading = ({
         <Separator className="mb-5" />
       </Colxx>
     </Row>
+    <Modal isOpen={modalBasic} toggle={() => setModalBasic(!modalBasic)}>
+        <ModalHeader>
+          <IntlMessages id="Delete" />
+        </ModalHeader>
+        <ModalBody>
+         Are you sure you want to delete user?
+        </ModalBody>
+        <ModalFooter>
+          <Button onClick={deleteUsers} color="primary">
+            Confirm
+          </Button>{' '}
+          <Button color="secondary" onClick={() => setModalBasic(false)}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </>
   );
 };
 

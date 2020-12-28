@@ -40,20 +40,13 @@ const User = db.define('users', {
     },
     zipcode: {
         type: Sequelize.STRING,
-    },  
-    // created:{
-    //     type:Sequelize.DATE,
-    //     default:Date.now()
-    // },
-    // updated:{
-    //     type:Sequelize.DATE
-    // },
-    
+    },      
     company:{
         type:Sequelize.STRING,
     },
     role:{
-        type:Sequelize.STRING
+        type:Sequelize.STRING,
+        defaultValue:'user'
     }
 });
 db

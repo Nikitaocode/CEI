@@ -14,8 +14,32 @@ import {
 import Select from 'react-select';
 import CustomSelectInput from '../../components/common/CustomSelectInput';
 import IntlMessages from '../../helpers/IntlMessages';
+import axios from 'axios'
+
+
 
 const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
+  const [formData,setformData]= React.useState({})
+
+  const validateEmail = (value) => {
+    let error;
+    if (!value) {
+      error = 'Please enter your email address';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+      error = 'Invalid email address';
+    }
+    return error;
+  };
+
+  // Create new user
+  const CreateNewUser=(e)=>{
+    e.preventDefault()
+    axios.post("/api/new-user",formData).then(res=>{
+      if(res.data.success){
+        window.location.reload()
+      }
+    })
+  }
   return (
     <Modal
       isOpen={modalOpen}
@@ -32,54 +56,57 @@ const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
         <Label>
           <IntlMessages id="First name" />
         </Label>
-        <Input />
+        <Input onChange={(e) => {
+                setformData({ ...formData, firstname: e.target.value })
+              }} />
 
         </Col>
         <Col className="sm-6">
         <Label>
           <IntlMessages id="Last name" />
         </Label>
-        <Input />
+        <Input onChange={(e) => {
+                setformData({ ...formData, lastname: e.target.value })
+              }}/>
 
         </Col>
         </Row>
         <Label className="mt-4">
-          <IntlMessages id="pages.category" />
+          <IntlMessages id="Email" />
         </Label>
+        <Input onChange={(e) => {
+                setformData({ ...formData, email: e.target.value })
+              }} />
+        <Label className="mt-4">
+          <IntlMessages id="Phone" />
+        </Label>
+        <Input name="text" onChange={(e) => {
+                setformData({ ...formData, phone: e.target.value })
+              }} />
+        <Label className="mt-4">
+          <IntlMessages id="Role" />
+        </Label>
+        
         <Select
           components={{ Input: CustomSelectInput }}
           className="react-select"
           classNamePrefix="react-select"
           name="form-field-name"
           options={categories}
+          onChange={(e) => {
+                setformData({ ...formData, role: e.value })
+                
+              }}
         />
-        <Label className="mt-4">
-          <IntlMessages id="pages.description" />
-        </Label>
-        <Input type="textarea" name="text" id="exampleText" />
-        <Label className="mt-4">
-          <IntlMessages id="pages.status" />
-        </Label>
-        <CustomInput
-          type="radio"
-          id="exCustomRadio"
-          name="customRadio"
-          label="ON HOLD"
-        />
-        <CustomInput
-          type="radio"
-          id="exCustomRadio2"
-          name="customRadio"
-          label="PROCESSED"
-        />
+        
       </ModalBody>
       <ModalFooter>
         <Button color="secondary" outline onClick={toggleModal}>
           <IntlMessages id="pages.cancel" />
         </Button>
-        <Button color="primary" onClick={toggleModal}>
-          <IntlMessages id="pages.submit" />
-        </Button>{' '}
+        <Button onClick={CreateNewUser} color="primary">
+          <IntlMessages id="Create Account" />
+        </Button>
       </ModalFooter>
     </Modal>
   );

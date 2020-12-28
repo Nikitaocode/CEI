@@ -12,22 +12,31 @@ import IntlMessages from '../../helpers/IntlMessages';
 import {GoogleLogin} from "react-google-login"
 import axios from "axios"
 
-const validatePassword = (value) => {
-  let error;
-  if (!value) {
-    error = 'Please enter your password';
-  } else if (value.length < 4) {
-    error = 'Value must be longer than 3 characters';
-  }
-  return error;
-};
+// const validatePassword = (value) => {
+//   let error;
+//   if (!value) {
+//     error = 'Please enter your password';
+//   } else if (value.length < 8) {
+//     error = 'Value must be longer than 8 characters';
+//   }
+//   return error;
+// };
 const styles ={
   divStyle:{
     margin:"1rem"
 
   }
 }
-
+function InvalidMsg(textbox) { 
+  if (textbox.value.length < 8 ) { 
+      textbox.setCustomValidity 
+            ('Password should be minimum 8 characters'); 
+  }
+  else{
+      textbox.setCustomValidity("")
+  }
+  return true; 
+} 
 const validateEmail = (value) => {
   let error;
   if (!value) {
@@ -150,7 +159,8 @@ const onUserLogin=(e)=>{
                       className="form-control"
                       type="password"
                       name="password"
-                      validate={validatePassword}
+                      oninput={()=>InvalidMsg(this)}
+                      onvalid={()=>InvalidMsg(this)}
                     />
                     {/* {errors.password && touched.password && (
                       <div className="invalid-feedback d-block">

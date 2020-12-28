@@ -1,7 +1,7 @@
 import React,{useEffect,useState,useContext} from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-
+import userManagement from '../constants/menu';
 import TopNav from '../containers/navs/Topnav';
 import Sidebar from '../containers/navs/Sidebar';
 import Footer from '../containers/navs/Footer';
@@ -11,10 +11,14 @@ import {UserContext} from "../Context/UserContext"
 
 import axios from 'axios'
 const AppLayout = ({ containerClassnames, children, history }) => {
+  const [menuItems,setmenuItems] = useState([])
   const [user, setUser] = useContext(UserContext)
   
   // GET THE USER DATA
-  
+  useEffect(()=>{
+      setmenuItems(userManagement())
+      console.log(menuItems)
+  },[])
   useEffect(()=>{
     const getuserData =async ()=>{
       const user = Authservice.getCurrentUser()
@@ -45,11 +49,13 @@ const AppLayout = ({ containerClassnames, children, history }) => {
     checkAuthentication()
   },[])
   
-  
+  // useEffect(()=>{
+
+  // })
   return (
     <div id="app-container" className={containerClassnames}>
       <TopNav history={history} user={user}/>
-      <Sidebar />
+      <Sidebar menuItems={menuItems} />
       <main>
         <div className="container-fluid">{children}</div>
       </main>
