@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Card, CustomInput } from 'reactstrap';
+import { ContextMenuTrigger } from 'react-contextmenu';
+import { Colxx } from '../../../components/common/CustomBootstrap'
 import { servicePath } from "../../../constants/defaultValues";
 import ListPageHeading from '../../../containers/pages/ListPageHeading';
 import AddNewModal from '../../../containers/pages/AddNewModal';
 import ListPageListing from '../../../containers/pages/ListPageListing';
 import useMousetrap from '../../../hooks/use-mousetrap';
+import ListHeadings from "../../../containers/pages/ListHeadings"
 import { FaEthereum } from 'react-icons/fa';
 const getIndex = (value, arr, prop) => {
     for (let i = 0; i < arr.length; i += 1) {
@@ -18,9 +22,8 @@ const getIndex = (value, arr, prop) => {
 //   const apiUrl = `${servicePath}/cakes/paging`;
   
   const orderOptions = [
-    { column: 'title', label: 'Product Name' },
-    { column: 'category', label: 'Category' },
-    { column: 'status', label: 'Status' },
+    { column: 'firstName', label: 'Name' },
+    
   ];
   const pageSizes = [4, 8, 12, 20];
   
@@ -45,6 +48,7 @@ const ManageUsers = ({ intl, match }) => {
     const [selectedItems, setSelectedItems] = useState([]);
     const [items, setItems] = useState([]);
     const [lastChecked, setLastChecked] = useState(null);
+    const [sortby,setsortby] = useState("")
   
     useEffect(() => {
       setCurrentPage(1);
@@ -54,16 +58,16 @@ const ManageUsers = ({ intl, match }) => {
       async function fetchData() {
         await axios
           .get(
-           "/api/users"
+           "/api/users/1"
           )
           .then((res) => {
             // console.log(res.data)
             return res.data
           })
           .then((data) => {
-            // setTotalPage(data.totalPage);
+            setTotalPage(data.totalPage);
             setItems(data.data.map(x=>{ return { ...x}}));
-            // setSelectedItems([]);
+            setSelectedItems([]);
             // setTotalItemCount(data.totalItem);
             setIsLoaded(true);
           });
@@ -159,6 +163,13 @@ const ManageUsers = ({ intl, match }) => {
               setSelectedOrderOption(
                 orderOptions.find((x) => x.column === column)
               );
+              setsortby(column)
+              axios.get("/api/users/1",{params:{sortby:column}}).then(res=>{
+                setItems(res.data.data.map(x=>{ return { ...x}}));
+            setSelectedItems([]);
+            // setTotalItemCount(data.totalItem);
+            setIsLoaded(true);
+              })
             }}
             changePageSize={setSelectedPageSize}
             selectedPageSize={selectedPageSize}
@@ -172,6 +183,12 @@ const ManageUsers = ({ intl, match }) => {
             onSearchKey={(e) => {
               if (e.key === 'Enter') {
                 setSearch(e.target.value.toLowerCase());
+                axios.get("/api/users/1",{params:{search:e.target.value.toLowerCase()}}).then((res)=>{
+                  setItems(res.data.data.map(x=>{ return { ...x}}));
+                  setSelectedItems([]);
+                  // setTotalItemCount(res.data.totalItem);
+                  setIsLoaded(true);
+                })
               }
             }}
             orderOptions={orderOptions}
@@ -184,6 +201,7 @@ const ManageUsers = ({ intl, match }) => {
             toggleModal={() => setModalOpen(!modalOpen)}
             categories={categories}
           />
+         <ListHeadings/>
           <ListPageListing
             items={items}
             displayMode={displayMode}

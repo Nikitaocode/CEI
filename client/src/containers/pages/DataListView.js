@@ -37,6 +37,15 @@ const DataListView = ({ product, isSelect, collect, onCheckItem }) => {
     
   };
 
+  const styles = {
+    active:{
+      color:"green"
+    },
+    inactive:{
+      color:"red"
+    }
+  }
+
   // EDIT HANDLER
   const edit=(e)=>{
     console.log(e);
@@ -99,17 +108,16 @@ const DataListView = ({ product, isSelect, collect, onCheckItem }) => {
                   {' '}
                   {product.email}
                 </p>
+                {product.status?<p style={styles.active} className="mb-1 w-10 w-sm-100 list-item-heading truncate">Active</p>:<p style={styles.inactive} className="mb-1 w-10 w-sm-100 list-item-heading truncate">Inactive</p>}
                 <FaEdit
                   onClick={()=>openModal(product.id)}
                   style={{ cursor: 'pointer' }}
                   id={product.id}
                   className="mb-1 w-2 w-sm-100 list-item-heading "
                 />
-                <FaEye
-                  style={{ cursor: 'pointer' }}
-                  id={product.id}
-                  className="mb-1 w-2 w-sm-100 list-item-heading"
-                />
+                
+                  
+                
                 <FaTrash
                   onClick={() => deleteModal(product.id)}
                   value={product.id}
@@ -132,7 +140,7 @@ const DataListView = ({ product, isSelect, collect, onCheckItem }) => {
           <IntlMessages id="First name" />
         </Label>
         <Input defaultValue={details.firstName} onChange={(e) => {
-                setformData({ ...formData, firstName: e.target.value })
+                setformData({ ...formData, firstName: e.target.value.toLowerCase() })
               }} />
 
         </Col>
@@ -141,7 +149,7 @@ const DataListView = ({ product, isSelect, collect, onCheckItem }) => {
           <IntlMessages id="Last name" />
         </Label>
         <Input defaultValue={details.lastName} onChange={(e) => {
-                setformData({ ...formData, lastName: e.target.value })
+                setformData({ ...formData, lastName: e.target.value.toLowerCase() })
               }}/>
 
         </Col>

@@ -55,6 +55,7 @@ const ListPageHeading = ({
   const [dropdownSplitOpen, setDropdownSplitOpen] = useState(false);
   const [displayOptionsIsOpen, setDisplayOptionsIsOpen] = useState(false);
   const [modalBasic, setModalBasic] = useState(false);
+  const [search,setSearch]=useState("")
   const deleteUsers =(e)=>{
     console.log("hi")
     axios.post("/api/delete-user",null,{params:{id:selectedItems}}).then(res=>{
@@ -140,7 +141,7 @@ const ListPageHeading = ({
             className="d-md-block"
             id="displayOptions"
           >
-            <span className="mr-3 d-inline-block float-md-left">
+            {/* <span className="mr-3 d-inline-block float-md-left">
               <a
                 href="#/"
                 className={`mr-2 view-icon ${
@@ -168,13 +169,13 @@ const ListPageHeading = ({
               >
                 <ImageListIcon />
               </a>
-            </span>
+            </span> */}
 
             <div className="d-block d-md-inline-block pt-1">
               <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
                 <DropdownToggle caret color="outline-dark" size="xs">
                   <IntlMessages id="pages.orderby" />
-                  {selectedOrderOption.label}
+                  Name
                 </DropdownToggle>
                 <DropdownMenu>
                   {orderOptions.map((order, index) => {

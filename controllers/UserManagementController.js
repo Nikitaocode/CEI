@@ -1,5 +1,5 @@
 const user = require("../models/User")
-const bcrypt= require("bcryptjs")
+const bcrypt = require("bcryptjs")
 const nodemailer = require('nodemailer')
 var mail = nodemailer.createTransport({
     service: 'gmail',
@@ -9,38 +9,116 @@ var mail = nodemailer.createTransport({
     }
 });
 // ALL USERS ON USER MANAGEMENT PAGE
-const users = async (req,res )=>{
-    user.findAll({where:{role:"user"}}).then(response=>{
-        var users =[]
-        // console.log(response)
-        for(i of response){
+const users = async (req, res) => {
+    var perPage = 8
+    var page = req.params.page || 1
+    console.log(req.query)
+    const allusers = await user.findAll({where:{role:'user'}})
+    // SORTING BY NAME
+    if (req.query.sortby) {
+        console.log("query is", req.query)
+        user.findAll({
+            limit: perPage * 1,
+            offset: (page - 1) * perPage,
+            where: { role: "user" },
+            order: [
+                ['firstName', 'ASC'],
+            ],
+        }).then(response => {
+            var users = []
+            var totalPage = Math.ceil(allusers.length / perPage)
+            console.log(totalPage)
+            for (i of response) {
                 users.push(i.dataValues)
             }
-        // console.log(users)
-        res.json({
-            data:users
+            res.json({
+                data: users,
+                totalPage: totalPage
+            })
         })
-    })
+    }
+    // SEARCH BY NAME
+    else if (req.query.search) {
+        user.findAll({
+            limit: perPage * 1,
+            offset: (page - 1) * perPage,
+            where: { role: "user", firstName: req.query.search },
+        }).then(response => {
+            console.log(response)
+            var users = []
+            var totalPage = Math.ceil(response.length / perPage)
+            console.log(totalPage)
+            for (i of response) {
+                users.push(i.dataValues)
+            }
+            res.json({
+                data: users,
+                totalPage: totalPage
+            })
+        })
+    }
+    // else if(req.query.search && req.query.sortby){
+    //     console.log("this one")
+    //     user.findAll({
+    //         limit: perPage * 1,
+    //         offset: (page - 1) * perPage,
+    //         where: { role: "user",firstName:req.query.search },
+    //         order: [
+    //             ['firstName', 'ASC'],
+    //         ],
+    //     }).then(response => {
+    //         console.log(response)
+    //         var users = []
+    //         var totalPage = Math.ceil(response.length / perPage)
+    //         console.log(totalPage)
+    //         for (i of response) {
+    //             users.push(i.dataValues)
+    //         }
+    //         res.json({
+    //             data: users,
+    //             totaPage: totalPage
+    //         })
+    //     })
+    // }
+    else {
+        user.findAll({
+            limit: perPage * 1,
+            offset: (page - 1) * perPage, where: { role: "user" }
+        }).then(response => {
+            var users = []
+            var totalPage = Math.ceil(allusers.length / perPage)
+            console.log(totalPage)
+            for (i of response) {
+                users.push(i.dataValues)
+            }
+            res.json({
+                data: users,
+                totalPage: totalPage
+            })
+        })
+    }
 }
+
+
 // DELETE USERS VIA USER MANAGEMENT PAGE
 
-const deleteUser =async (req,res)=>{
+const deleteUser = async (req, res) => {
     // console.log(req.query)
-    if(typeof(req.query.id)=='string'){
-        user.destroy({where:{id:req.query.id}}).then(response=>{
+    if (typeof (req.query.id) == 'string') {
+        user.destroy({ where: { id: req.query.id } }).then(response => {
             console.log(response)
             res.json({
-                success:'deleted'
+                success: 'deleted'
             })
         })
 
     }
-    else if(typeof(req.query.id)=='object'){
-        for(i of req.query.id){
-            await user.destroy({where:{id:i}})
+    else if (typeof (req.query.id) == 'object') {
+        for (i of req.query.id) {
+            await user.destroy({ where: { id: i } })
         }
         res.json({
-            success:"deleted"
+            success: "deleted"
         })
     }
 }
@@ -54,21 +132,21 @@ function generatePassword() {
     }
     return retVal;
 }
-// console.log(generatePassword())
+
 // CREATE NEW USER VIA USER MANAGEMENT PAGE
-const newUser = async (req,res)=>{
+const newUser = async (req, res) => {
     console.log(req.body)
     var password = generatePassword()
-    const hashedPassword = await bcrypt.hash(password,10)
+    const hashedPassword = await bcrypt.hash(password, 10)
 
     user.create({
-        firstName:req.body.firstname,
-        lastName:req.body.lastname,
-        email:req.body.email,
-        phone:req.body.phone,
-        password:hashedPassword,
-        role:req.body.role
-    }).then(result=>{
+        firstName: req.body.firstname.toLowerCase(),
+        lastName: req.body.lastname.toLowerCase(),
+        email: req.body.email,
+        phone: req.body.phone,
+        password: hashedPassword,
+        role: req.body.role
+    }).then(result => {
         console.log(result)
         var mailoptions = {
             from: 'ceideveloperoc@gmail.com',
@@ -78,48 +156,49 @@ const newUser = async (req,res)=>{
              email:${req.body.email}  
              passwors: ${password}`
         }
-        mail.sendMail(mailoptions,((err,result)=>{
-            if(result){
+        mail.sendMail(mailoptions, ((err, result) => {
+            if (result) {
                 res.json({
-                    success:"User Created",
+                    success: "User Created",
                 })
             }
         }))
-        
-    }).catch((err)=>{
+
+    }).catch((err) => {
         console.log(err)
         res.json({
-            error:"Something went wrong"
+            error: "Something went wrong"
         })
     })
 }
 
 // GET USER DETAILS 
-const userDetails = async (req,res)=>{
- console.log(req.query)
- const details = await user.findOne({where:{id:req.query.id}})
-//  console.log(details)
- res.json({
-     data:details
- })
+const userDetails = async (req, res) => {
+    console.log(req.query)
+    const details = await user.findOne({ where: { id: req.query.id } })
+    //  console.log(details)
+    res.json({
+        data: details
+    })
 }
 
 // EDIT USER DETAILS
-const editUser = async (req,res)=>{
+const editUser = async (req, res) => {
     console.log(req.body)
     // console.log(req.query)
-    if(!(Object.keys(req.body).length === 0 && req.body.constructor === Object)){
-        user.update(req.body,{where:{id:req.query.id}}).then(response=>{
+    if (!(Object.keys(req.body).length === 0 && req.body.constructor === Object)) {
+        user.update(req.body, { where: { id: req.query.id } }).then(response => {
             res.json({
-                success:"Successfully updated"
+                success: "Successfully updated"
             })
         })
     }
 }
 
-module.exports ={users:users,
-    deleteUser:deleteUser,
-    newUser:newUser,
-    userDetails:userDetails,
-    editUser:editUser
+module.exports = {
+    users: users,
+    deleteUser: deleteUser,
+    newUser: newUser,
+    userDetails: userDetails,
+    editUser: editUser
 }

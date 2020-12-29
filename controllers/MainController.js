@@ -32,8 +32,8 @@ const signup = async (req, res) => {
         console.log(hashedPassword);
         // DATA SAVED TO DB
         user.create({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
+            firstName: req.body.firstName.toLowerCase(),
+            lastName: req.body.lastName.toLowerCase(),
             email: req.body.email,
             password: hashedPassword,
         }).then(result => {
@@ -223,10 +223,10 @@ const googleLogin =async  (req, res) => {
                     // OTHER DETAILS CAN BE EDITED AND ADDED IN PROFILE MANAGEMENT
                     else {
                         user.create({
-                            firstName: name.split(" ")[0],
-                            lastName: name.split(" ")[1],
+                            firstName: name.split(" ")[0].toLowerCase(),
+                            lastName: name.split(" ")[1].toLowerCase(),
                             email: email,
-                            password: email + process.env.ACCESS_TOKEN_SECRET
+                            password: email + process.env.PASSWORD
                         }).then((err, data) => {
                             if (err) {
                                 res.status(400).json({
