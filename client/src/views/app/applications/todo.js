@@ -1,32 +1,13 @@
-/* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from 'react';
-import {
-  Row,
-  Button,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownItem,
-  DropdownMenu,
-  Collapse,
-  ButtonDropdown,
-  CustomInput,
-} from 'reactstrap';
-import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
 
-import IntlMessages from '../../../helpers/IntlMessages';
-import { Colxx, Separator } from '../../../components/common/CustomBootstrap';
-import Breadcrumb from '../../../containers/navs/Breadcrumb';
+import axios from 'axios';
 
-import {
-  getTodoList,
-  getTodoListWithOrder,
-  getTodoListSearch,
-  selectedTodoItemsChange,
-} from '../../../redux/actions';
-import TodoListItem from '../../../components/applications/TodoListItem';
-import AddNewTodoModal from '../../../containers/applications/AddNewTodoModal';
-import TodoApplicationMenu from '../../../containers/applications/TodoApplicationMenu';
+import { servicePath } from '../../../constants/defaultValues';
+
+import ListPageHeading from '../../../containers/pages/ListPageHeading';
+import AddNewModal from '../../../containers/pages/AddNewModal';
+import ListPageListing from '../../../containers/pages/ListPageListing';
+import useMousetrap from '../../../hooks/use-mousetrap';
 
 const getIndex = (value, arr, prop) => {
   for (let i = 0; i < arr.length; i += 1) {
@@ -37,234 +18,191 @@ const getIndex = (value, arr, prop) => {
   return -1;
 };
 
-const TodoApp = ({
-  match,
-  intl,
-  todoItems,
-  searchKeyword,
-  loading,
-  orderColumn,
-  orderColumns,
-  selectedItems,
-  getTodoListAction,
-  getTodoListWithOrderAction,
-  getTodoListSearchAction,
-  selectedTodoItemsChangeAction,
-}) => {
+const apiUrl = `${servicePath}/cakes/paging`;
+
+const orderOptions = [
+  { column: 'title', label: 'Product Name' },
+  { column: 'category', label: 'Category' },
+  { column: 'status', label: 'Status' },
+];
+const pageSizes = [4, 8, 12, 20];
+
+const categories = [
+  { label: 'Cakes', value: 'Cakes', key: 0 },
+  { label: 'Cupcakes', value: 'Cupcakes', key: 1 },
+  { label: 'Desserts', value: 'Desserts', key: 2 },
+];
+
+const TodoApp = ({ match }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [displayMode, setDisplayMode] = useState('thumblist');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedPageSize, setSelectedPageSize] = useState(8);
+  const [selectedOrderOption, setSelectedOrderOption] = useState({
+    column: 'title',
+    label: 'Product Name',
+  });
+
   const [modalOpen, setModalOpen] = useState(false);
-  const [dropdownSplitOpen, setDropdownSplitOpen] = useState(false);
-  const [displayOptionsIsOpen, setDisplayOptionsIsOpen] = useState(false);
+  const [totalItemCount, setTotalItemCount] = useState(0);
+  const [totalPage, setTotalPage] = useState(1);
+  const [search, setSearch] = useState('');
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [items, setItems] = useState([]);
   const [lastChecked, setLastChecked] = useState(null);
 
   useEffect(() => {
-    document.body.classList.add('right-menu');
-    getTodoListAction();
+    setCurrentPage(1);
+  }, [selectedPageSize, selectedOrderOption]);
 
-    return () => {
-      document.body.classList.remove('right-menu');
-    };
-  }, [getTodoListAction]);
+  useEffect(() => {
+    async function fetchData() {
+      axios
+        .get(
+          `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
+        )
+        .then((res) => {
+          return res.data;
+        })
+        .then((data) => {
+          setTotalPage(data.totalPage);
+          setItems(data.data.map(x=>{ return { ...x,img : x.img.replace("img/","img/products/")}}));
+          setSelectedItems([]);
+          setTotalItemCount(data.totalItem);
+          setIsLoaded(true);
+        });
+    }
+    fetchData();
+  }, [selectedPageSize, currentPage, selectedOrderOption, search]);
 
-  const handleCheckChange = (event, id) => {
-    if (lastChecked == null) {
+  const onCheckItem = (event, id) => {
+    if (
+      event.target.tagName === 'A' ||
+      (event.target.parentElement && event.target.parentElement.tagName === 'A')
+    ) {
+      return true;
+    }
+    if (lastChecked === null) {
       setLastChecked(id);
     }
 
-    let selectedList = Object.assign([], selectedItems);
+    let selectedList = [...selectedItems];
     if (selectedList.includes(id)) {
       selectedList = selectedList.filter((x) => x !== id);
     } else {
       selectedList.push(id);
     }
-    selectedTodoItemsChangeAction(selectedList);
+    setSelectedItems(selectedList);
 
     if (event.shiftKey) {
-      let items = todoItems;
-      const start = getIndex(id, items, 'id');
-      const end = getIndex(lastChecked, items, 'id');
-      items = items.slice(Math.min(start, end), Math.max(start, end) + 1);
-      selectedList.push(
-        ...items.map((item) => {
+      let newItems = [...items];
+      const start = getIndex(id, newItems, 'id');
+      const end = getIndex(lastChecked, newItems, 'id');
+      newItems = newItems.slice(Math.min(start, end), Math.max(start, end) + 1);
+      selectedItems.push(
+        ...newItems.map((item) => {
           return item.id;
         })
       );
-      selectedList = Array.from(new Set(selectedList));
-      selectedTodoItemsChangeAction(selectedList);
+      selectedList = Array.from(new Set(selectedItems));
+      setSelectedItems(selectedList);
     }
+    document.activeElement.blur();
+    return false;
   };
 
-  const handleChangeSelectAll = () => {
-    if (loading) {
-      if (selectedItems.length >= todoItems.length) {
-        selectedTodoItemsChangeAction([]);
-      } else {
-        selectedTodoItemsChangeAction(todoItems.map((x) => x.id));
+  const handleChangeSelectAll = (isToggle) => {
+    if (selectedItems.length >= items.length) {
+      if (isToggle) {
+        setSelectedItems([]);
       }
+    } else {
+      setSelectedItems(items.map((x) => x.id));
     }
+    document.activeElement.blur();
+    return false;
   };
 
-  const { messages } = intl;
+  const onContextMenuClick = (e, data) => {
+    // params : (e,data,target)
+    console.log('onContextMenuClick - selected items', selectedItems);
+    console.log('onContextMenuClick - action : ', data.action);
+  };
 
-  return (
+  const onContextMenu = (e, data) => {
+    const clickedProductId = data.data;
+    if (!selectedItems.includes(clickedProductId)) {
+      setSelectedItems([clickedProductId]);
+    }
+
+    return true;
+  };
+
+  useMousetrap(['ctrl+a', 'command+a'], () => {
+    handleChangeSelectAll(false);
+  });
+
+  useMousetrap(['ctrl+d', 'command+d'], () => {
+    setSelectedItems([]);
+    return false;
+  });
+
+  const startIndex = (currentPage - 1) * selectedPageSize;
+  const endIndex = currentPage * selectedPageSize;
+
+  return !isLoaded ? (
+    <div className="loading" />
+  ) : (
     <>
-      <Row className="app-row survey-app">
-        <Colxx xxs="12">
-          <div className="mb-2">
-            <h1>
-              <IntlMessages id="Products" />
-            </h1>
-            {loading && (
-              <div className="text-zero top-right-button-container">
-                <Button
-                  color="primary"
-                  size="lg"
-                  className="top-right-button"
-                  onClick={() => setModalOpen(true)}
-                >
-                  <IntlMessages id="todo.add-new" />
-                </Button>{' '}
-                <ButtonDropdown
-                  isOpen={dropdownSplitOpen}
-                  toggle={() => setDropdownSplitOpen(!dropdownSplitOpen)}
-                >
-                  <div className="btn btn-primary btn-lg pl-4 pr-0 check-button check-all">
-                    <CustomInput
-                      className="custom-checkbox mb-0 d-inline-block"
-                      type="checkbox"
-                      id="checkAll"
-                      checked={selectedItems.length >= todoItems.length}
-                      onClick={() => handleChangeSelectAll()}
-                      onChange={() => handleChangeSelectAll()}
-                      label={
-                        <span
-                          className={`custom-control-label ${
-                            selectedItems.length > 0 &&
-                            selectedItems.length < todoItems.length
-                              ? 'indeterminate'
-                              : ''
-                          }`}
-                        />
-                      }
-                    />
-                  </div>
-                  <DropdownToggle
-                    caret
-                    color="primary"
-                    className="dropdown-toggle-split btn-lg"
-                  />
-                  <DropdownMenu right>
-                    <DropdownItem>
-                      <IntlMessages id="todo.action" />
-                    </DropdownItem>
-                    <DropdownItem>
-                      <IntlMessages id="todo.another-action" />
-                    </DropdownItem>
-                  </DropdownMenu>
-                </ButtonDropdown>
-              </div>
-            )}
-            <Breadcrumb match={match} />
-          </div>
-
-          <div className="mb-2">
-            <Button
-              color="empty"
-              className="pt-0 pl-0 d-inline-block d-md-none"
-              onClick={() => setDisplayOptionsIsOpen(!displayOptionsIsOpen)}
-            >
-              <IntlMessages id="todo.display-options" />{' '}
-              <i className="simple-icon-arrow-down align-middle" />
-            </Button>
-            <Collapse
-              id="displayOptions"
-              className="d-md-block"
-              isOpen={displayOptionsIsOpen}
-            >
-              <div className="d-block mb-2 d-md-inline-block">
-                <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
-                  <DropdownToggle caret color="outline-dark" size="xs">
-                    <IntlMessages id="todo.orderby" />
-                    {orderColumn ? orderColumn.label : ''}
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    {orderColumns.map((o, index) => {
-                      return (
-                        <DropdownItem
-                          key={index}
-                          onClick={() => getTodoListWithOrderAction(o.column)}
-                        >
-                          {o.label}
-                        </DropdownItem>
-                      );
-                    })}
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-                <div className="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
-                  <input
-                    type="text"
-                    name="keyword"
-                    id="search"
-                    placeholder={messages['menu.search']}
-                    defaultValue={searchKeyword}
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        getTodoListSearchAction(e.target.value);
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-            </Collapse>
-          </div>
-          <Separator className="mb-5" />
-          <Row>
-            {loading ? (
-              todoItems.map((item, index) => (
-                <TodoListItem
-                  key={`todo_item_${index}`}
-                  item={item}
-                  handleCheckChange={handleCheckChange}
-                  isSelected={loading ? selectedItems.includes(item.id) : false}
-                />
-              ))
-            ) : (
-              <div className="loading" />
-            )}
-          </Row>
-        </Colxx>
-      </Row>
-      {loading && <TodoApplicationMenu />}
-      <AddNewTodoModal
-        toggleModal={() => setModalOpen(!modalOpen)}
-        modalOpen={modalOpen}
-      />
+      <div className="disable-text-selection">
+        <ListPageHeading
+          heading="Products"
+          displayMode={displayMode}
+          changeDisplayMode={setDisplayMode}
+          handleChangeSelectAll={handleChangeSelectAll}
+          changeOrderBy={(column) => {
+            setSelectedOrderOption(
+              orderOptions.find((x) => x.column === column)
+            );
+          }}
+          changePageSize={setSelectedPageSize}
+          selectedPageSize={selectedPageSize}
+          totalItemCount={totalItemCount}
+          selectedOrderOption={selectedOrderOption}
+          match={match}
+          startIndex={startIndex}
+          endIndex={endIndex}
+          selectedItemsLength={selectedItems ? selectedItems.length : 0}
+          itemsLength={items ? items.length : 0}
+          onSearchKey={(e) => {
+            if (e.key === 'Enter') {
+              setSearch(e.target.value.toLowerCase());
+            }
+          }}
+          orderOptions={orderOptions}
+          pageSizes={pageSizes}
+          toggleModal={() => setModalOpen(!modalOpen)}
+        />
+        <AddNewModal
+          modalOpen={modalOpen}
+          toggleModal={() => setModalOpen(!modalOpen)}
+          categories={categories}
+        />
+        <ListPageListing
+          items={items}
+          displayMode={displayMode}
+          selectedItems={selectedItems}
+          onCheckItem={onCheckItem}
+          currentPage={currentPage}
+          totalPage={totalPage}
+          onContextMenuClick={onContextMenuClick}
+          onContextMenu={onContextMenu}
+          onChangePage={setCurrentPage}
+        />
+      </div>
     </>
   );
 };
 
-const mapStateToProps = ({ todoApp }) => {
-  const {
-    todoItems,
-    searchKeyword,
-    loading,
-    orderColumn,
-    orderColumns,
-    selectedItems,
-  } = todoApp;
-  return {
-    todoItems,
-    searchKeyword,
-    loading,
-    orderColumn,
-    orderColumns,
-    selectedItems,
-  };
-};
-export default injectIntl(
-  connect(mapStateToProps, {
-    getTodoListAction: getTodoList,
-    getTodoListWithOrderAction: getTodoListWithOrder,
-    getTodoListSearchAction: getTodoListSearch,
-    selectedTodoItemsChangeAction: selectedTodoItemsChange,
-  })(TodoApp)
-);
+export default TodoApp;
+
