@@ -51,6 +51,10 @@ const User = db.define('users', {
     status:{
         type:Sequelize.BOOLEAN,
         defaultValue:true
+    },
+    profileImage:{
+        type:Sequelize.STRING,
+        defaultValue:"https://res.cloudinary.com/nikita4206/image/upload/v1609180120/Profile-ICon_tmy5nb.png"
     }
 });
 db

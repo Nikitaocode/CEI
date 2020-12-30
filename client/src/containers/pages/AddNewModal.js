@@ -15,7 +15,7 @@ import Select from 'react-select';
 import CustomSelectInput from '../../components/common/CustomSelectInput';
 import IntlMessages from '../../helpers/IntlMessages';
 import axios from 'axios'
-
+import { NotificationManager } from '../../components/common/react-notifications';
 
 
 const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
@@ -36,8 +36,16 @@ const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
     e.preventDefault()
     axios.post("/api/new-user",formData).then(res=>{
       if(res.data.success){
-        window.location.reload()
+        NotificationManager.success(
+          res.data.success,
+          'Success',
+          3000,
+          null,
+          null,
+          ''
+        );
       }
+      toggleModal()
     })
   }
   return (

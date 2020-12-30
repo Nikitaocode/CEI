@@ -1,6 +1,7 @@
 const user = require("../models/User")
 const bcrypt = require("bcryptjs")
 const nodemailer = require('nodemailer')
+const cloudinary = require('cloudinary')
 var mail = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -185,8 +186,15 @@ const userDetails = async (req, res) => {
 // EDIT USER DETAILS
 const editUser = async (req, res) => {
     console.log(req.body)
-    // console.log(req.query)
-    if (!(Object.keys(req.body).length === 0 && req.body.constructor === Object)) {
+    var data = req.body
+    if(req.file){
+        const file = req.file.path;
+        const result = await cloudinary.uploader.upload(file)
+        // console.log(result)
+        data["profileImage"] = result.url
+    }
+    console.log(data)
+    if (!(Object.keys(data).length === 0 && data.constructor === Object)) {
         user.update(req.body, { where: { id: req.query.id } }).then(response => {
             res.json({
                 success: "Successfully updated"
@@ -195,10 +203,32 @@ const editUser = async (req, res) => {
     }
 }
 
+
+const activate = async (req,res)=>{
+    console.log(req.query)
+    for(i of req.query.id){
+        await user.update({status:true},{where:{id:i}})
+    }
+    res.json({
+        success:"Status Changed"
+    })
+}
+const deactivate = async (req,res)=>{
+    console.log(req.query)
+    for(i of req.query.id){
+        await user.update({status:false},{where:{id:i}})
+    }
+    res.json({
+        success:"Status Changed"
+    })
+}
 module.exports = {
     users: users,
     deleteUser: deleteUser,
     newUser: newUser,
     userDetails: userDetails,
-    editUser: editUser
+    editUser: editUser,
+    deactivate:deactivate,
+    activate:activate
+
 }

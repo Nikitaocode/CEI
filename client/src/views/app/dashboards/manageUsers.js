@@ -73,7 +73,7 @@ const ManageUsers = ({ intl, match }) => {
           });
       }
       fetchData();
-    }, []);
+    }, [items]);
    
     const onCheckItem = (event, id) => {
       if (
@@ -201,9 +201,15 @@ const ManageUsers = ({ intl, match }) => {
             toggleModal={() => setModalOpen(!modalOpen)}
             categories={categories}
           />
-         <ListHeadings/>
+         <ListHeadings
+            selectedItemsLength={selectedItems ? selectedItems.length : 0}
+            handleChangeSelectAll={handleChangeSelectAll}
+            itemsLength={items ? items.length : 0}
+
+         />
           <ListPageListing
             items={items}
+            setItems ={setItems}
             displayMode={displayMode}
             selectedItems={selectedItems}
             onCheckItem={onCheckItem}
@@ -212,6 +218,7 @@ const ManageUsers = ({ intl, match }) => {
             onContextMenuClick={onContextMenuClick}
             onContextMenu={onContextMenu}
             onChangePage={setCurrentPage}
+            categories={categories}
             // deleteUser={deleteUser}
           />
         </div>

@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require("jsonwebtoken")
 const nodemailer = require("nodemailer")
 const fetch = require('node-fetch');
+const cloudinary = require('cloudinary')
 const { OAuth2Client } = require("google-auth-library")
 const client = new OAuth2Client("501516992284-icth2bhte5iu6fpskcd97hcia62f9qdd.apps.googleusercontent.com")
 
@@ -311,18 +312,25 @@ const userData=(req,res)=>{
 
 // EDIT PROFILE
 
-const editprofile =(req,res)=>{
+const editprofile =async (req,res)=>{
     console.log(req.query)
     console.log(req.body)
-    user.update(req.body,{where:{id:req.query.id}}).then(response=>{
-        const data = user.findOne({where:{id:req.query.id}})
+    console.log(req.file)
+    var data = req.body
+    if(req.file){
+        const file = req.file.path;
+        const result = await cloudinary.uploader.upload(file)
+        // console.log(result)
+        data["profileImage"] = result.url
+    }
+    await user.update(data,{where:{id:req.query.id}})
+        const userData = await user.findOne({where:{id:req.query.id}})
+        console.log(userData)
         res.status(200).json({
             success:"Successfully updated",
-            data:data
+            data:userData
         })
-    }).catch(err=>{
-        console.log(err)
-    })
+    
 }
 
 module.exports = {

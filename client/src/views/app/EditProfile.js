@@ -25,8 +25,40 @@ import {
 const EditProfile = ({ match }) => {
     const [formData, setformData] = useState({})
     const [user, setUser] = useContext(UserContext)
+    const [picture, setPicture] = useState(null);
+    const [imgData, setImgData] = useState(null);
     const history = useHistory()
+    const styles = {
+    active: {
+      color: 'green',
+    },
+    inactive: {
+      color: 'red',
+    },
+    profileImg: {
+      height: '6rem',
+      width: '6rem',
+      borderRadius: '50%',
+    },
+    editprofileImage: {
+      height: '5rem',
+      width: '5rem',
+      borderRadius: '50%',
+    },
+  };
 
+  const onChangePicture = (e) => {
+    if (e.target.files[0]) {
+      console.log('picture: ', e.target.files);
+      setPicture(e.target.files[0]);
+      console.log(picture);
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        setImgData(reader.result);
+      });
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
     // useEffect(() => {
     //     countryData()
     // }
@@ -67,6 +99,43 @@ const EditProfile = ({ match }) => {
     // FORM   SUBMIT HANDLER
     const submit = (e) => {
         e.preventDefault()
+        const data = new FormData()
+        if(formData.firstName){
+          data.append("firstName",formData.firstName)
+        }
+        if(formData.lastName){
+          data.append("lastName",formData.lastName)
+        }
+        if(formData.email){
+          data.append("email",formData.email)
+        }
+        if(formData.phone){
+          data.append("phone",formData.phone)
+        }
+        if(formData.role){
+          data.append("role",formData.role)
+        }
+        if(formData.address){
+          data.append("address",formData.address)
+        }
+        if(formData.company){
+            data.append("company",formData.company)
+          }
+          if(formData.city){
+            data.append("city",formData.city)
+          }
+          if(formData.state){
+            data.append("state",formData.state)
+          }
+          if(formData.country){
+            data.append("country",formData.country)
+          }
+          if(formData.zip){
+            data.append("zip",formData.zip)
+          }
+        if(picture){
+          data.append("profileImage",picture)
+        }
         if(formData.phone && formData.phone.length<10){
             NotificationManager.warning(
                 "Number invalid",
@@ -88,7 +157,8 @@ const EditProfile = ({ match }) => {
               );
         }
        else{
-        axios.post("/api/edit-profile", formData,{params:{id:user.id}}).then((res) => {
+        axios.post("/api/edit-profile", data,{params:{id:user.id}}).then((res) => {
+            console.log(res.data);
             setUser(res.data.data)
             NotificationManager.success(
                 res.data.success,
@@ -98,7 +168,7 @@ const EditProfile = ({ match }) => {
                 null,
                 ''
               );
-              window.location.reload();
+            //   window.location.reload();
         })
        }
     }
@@ -119,7 +189,28 @@ const EditProfile = ({ match }) => {
                 <IntlMessages id="Edit" />
               </CardTitle> */}
                                 <Form>
+                                <FormGroup className="justify-content-center d-flex flex-column align-items-center">
+                    {imgData ? (
+                      <img style={styles.profileImg} src={imgData} alt="" />
+                    ) : (
+                      <img
+                        style={styles.profileImg}
+                        src={user.profileImage}
+                        alt=""
+                      />
+                    )}
+                    <Label className='font-weight-bold' for="profile">
+                      <IntlMessages id="Change Profile Picture" />
+                    </Label>
+                    <Input
+                      onChange={onChangePicture}
+                      style={{ display: 'none' }}
+                      type="file"
+                      id="profile"
+                    />
+                  </FormGroup>
                                     <FormGroup row>
+                                   
                                         <Colxx sm={6}>
                                             <FormGroup>
                                                 <Label for="exampleEmailGrid">

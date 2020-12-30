@@ -14,6 +14,7 @@ import {
 import { injectIntl } from 'react-intl';
 import { Colxx, Separator } from '../../components/common/CustomBootstrap';
 import Breadcrumb from '../navs/Breadcrumb';
+import { NotificationManager } from '../../components/common/react-notifications';
 import IntlMessages from '../../helpers/IntlMessages';
 import {
   Modal,
@@ -61,7 +62,43 @@ const ListPageHeading = ({
     axios.post("/api/delete-user",null,{params:{id:selectedItems}}).then(res=>{
       console.log(res.data)
       setModalBasic(false)
-      window.location.reload()
+      NotificationManager.success(
+            res.data.success,
+            'Success',
+            3000,
+            null,
+            null,
+            ''
+          );
+    })
+  }
+
+  const deactivate =(e)=>{
+    axios.post("/api/deactivate",null,{params:{id:selectedItems}}).then(res=>{
+      if(res.data.success){
+        NotificationManager.success(
+            res.data.success,
+            'Success',
+            3000,
+            null,
+            null,
+            ''
+          );
+      }
+    })
+  }
+  const activate =(e)=>{
+    axios.post("/api/activate",null,{params:{id:selectedItems}}).then(res=>{
+      if(res.data.success){
+        NotificationManager.success(
+            res.data.success,
+            'Success',
+            3000,
+            null,
+            null,
+            ''
+          );
+      }
     })
   }
   const { messages } = intl;
@@ -118,8 +155,11 @@ const ListPageHeading = ({
                 <span >Delete</span>
                   {/* <IntlMessages onClick={()=>setModalBasic(true)} id="pages.delete" /> */}
                 </DropdownItem>
-                <DropdownItem>
-                  <IntlMessages id="pages.another-action" />
+                <DropdownItem onClick={activate}>
+                <span >Activate</span>
+                </DropdownItem>
+                <DropdownItem onClick={deactivate}>
+                <span >De-activate</span>
                 </DropdownItem>
               </DropdownMenu>
             </ButtonDropdown>
