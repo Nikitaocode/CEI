@@ -15,6 +15,16 @@ const ThumbListView = ({ product, isSelect, collect, onCheckItem }) => {
             active: isSelect,
           })}
         >
+        <div className="custom-control custom-checkbox pl-1 align-self-center px-4">
+            <CustomInput
+              className="item-check mb-0"
+              type="checkbox"
+              id={`check_${product.id}`}
+              checked={isSelect}
+              onChange={() => {}}
+              label=""
+            />
+        </div>
           <NavLink to={`?p=${product.id}`} className="d-flex">
             <img
               alt={product.title}
@@ -33,6 +43,12 @@ const ThumbListView = ({ product, isSelect, collect, onCheckItem }) => {
                 {product.category}
               </p>
               <p className="mb-1 text-muted text-small w-15 w-sm-100">
+                {product.stock}
+              </p>
+              <p className="mb-1 text-muted text-small w-15 w-sm-100">
+                {product.sales}
+              </p>
+              <p className="mb-1 text-muted text-small w-15 w-sm-100">
                 {product.date}
               </p>
               <div className="w-15 w-sm-100">
@@ -41,16 +57,7 @@ const ThumbListView = ({ product, isSelect, collect, onCheckItem }) => {
                 </Badge>
               </div>
             </div>
-            <div className="custom-control custom-checkbox pl-1 align-self-center pr-4">
-              <CustomInput
-                className="item-check mb-0"
-                type="checkbox"
-                id={`check_${product.id}`}
-                checked={isSelect}
-                onChange={() => {}}
-                label=""
-              />
-            </div>
+            
           </div>
         </Card>
       </ContextMenuTrigger>

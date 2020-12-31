@@ -57,24 +57,32 @@ const login = async (req, res) => {
     console.log(req.body);
     user.findOne({ where: { email: req.body.email } }).then(async data => {
         if (data) {
-            const user = { id: data.dataValues.id }
-            bcrypt.compare(req.body.password, data.dataValues.password, (err, result) => {
-                if (result) {
-                    console.log(user)
-                    const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
-                    console.log(data);
-                    res.status(200).json({
-                        user: data.dataValues,
-                        token: token,
-                        success: "successful Login"
-                    })
-                }
-                else {
-                    res.json({
-                        error: "Incorrect email or password"
-                    })
-                }
-            })
+            if( data.dataValues.status){
+                const user = { id: data.dataValues.id }
+                bcrypt.compare(req.body.password, data.dataValues.password, (err, result) => {
+                    if (result) {
+                        console.log(user)
+                        const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+                        console.log(data);
+                        res.status(200).json({
+                            user: data.dataValues,
+                            token: token,
+                            success: "successful Login"
+                        })
+                    }
+                    else {
+                        res.json({
+                            error: "Incorrect email or password"
+                        })
+                    }
+                })
+            }
+            else{
+                res.json({
+                    error:"You account is Deactivated, please contact admin"
+                })
+            }
+            
         }
         else {
             res.json({

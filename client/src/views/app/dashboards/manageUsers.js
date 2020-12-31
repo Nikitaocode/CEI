@@ -40,7 +40,7 @@ const ManageUsers = ({ intl, match }) => {
       column: 'title',
       label: 'Product Name',
     });
-  
+    const [change,setchange] = useState(false)
     const [modalOpen, setModalOpen] = useState(false);
     const [totalItemCount, setTotalItemCount] = useState(0);
     const [totalPage, setTotalPage] = useState(1);
@@ -73,7 +73,7 @@ const ManageUsers = ({ intl, match }) => {
           });
       }
       fetchData();
-    }, [items]);
+    }, [change]);
    
     const onCheckItem = (event, id) => {
       if (
@@ -110,7 +110,16 @@ const ManageUsers = ({ intl, match }) => {
       document.activeElement.blur();
       return false;
     };
-  
+    const changePage=(i)=>{
+        setCurrentPage(i)
+        axios.get(`/api/users/${i}`).then(res=>{
+          setTotalPage(res.data.totalPage);
+            setItems(res.data.data.map(x=>{ return { ...x}}));
+            setSelectedItems([]);
+            // setTotalItemCount(data.totalItem);
+            setIsLoaded(true);
+        })
+    }
     const handleChangeSelectAll = (isToggle) => {
       if (selectedItems.length >= items.length) {
         if (isToggle) {
@@ -155,6 +164,8 @@ const ManageUsers = ({ intl, match }) => {
       <>
         <div className="disable-text-selection">
           <ListPageHeading
+          change={change}
+          setchange={setchange}
             heading="Users"
             displayMode={displayMode}
             changeDisplayMode={setDisplayMode}
@@ -167,7 +178,6 @@ const ManageUsers = ({ intl, match }) => {
               axios.get("/api/users/1",{params:{sortby:column}}).then(res=>{
                 setItems(res.data.data.map(x=>{ return { ...x}}));
             setSelectedItems([]);
-            // setTotalItemCount(data.totalItem);
             setIsLoaded(true);
               })
             }}
@@ -197,17 +207,23 @@ const ManageUsers = ({ intl, match }) => {
             selectedItems={selectedItems}
           />
           <AddNewModal
+          change={change}
+          setchange={setchange}
             modalOpen={modalOpen}
             toggleModal={() => setModalOpen(!modalOpen)}
             categories={categories}
           />
          <ListHeadings
+         change={change}
+          setchange={setchange}
             selectedItemsLength={selectedItems ? selectedItems.length : 0}
             handleChangeSelectAll={handleChangeSelectAll}
             itemsLength={items ? items.length : 0}
 
          />
           <ListPageListing
+          change={change}
+          setchange={setchange}
             items={items}
             setItems ={setItems}
             displayMode={displayMode}
@@ -217,7 +233,7 @@ const ManageUsers = ({ intl, match }) => {
             totalPage={totalPage}
             onContextMenuClick={onContextMenuClick}
             onContextMenu={onContextMenu}
-            onChangePage={setCurrentPage}
+            onChangePage={changePage}
             categories={categories}
             // deleteUser={deleteUser}
           />

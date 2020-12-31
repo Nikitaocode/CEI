@@ -5,9 +5,10 @@ import axios from 'axios';
 import { servicePath } from '../../../constants/defaultValues';
 
 import ListPageHeading from '../../../containers/pages/ListPageHeading';
-import AddNewModal from '../../../containers/pages/AddNewModal';
 import ListPageListing from '../../../containers/pages/ListPageListing';
 import useMousetrap from '../../../hooks/use-mousetrap';
+import AddNewProductModal from './add-new-product';
+import ProductListHeading from './ProductListHeadings';
 
 const getIndex = (value, arr, prop) => {
   for (let i = 0; i < arr.length; i += 1) {
@@ -183,10 +184,15 @@ const TodoApp = ({ match }) => {
           pageSizes={pageSizes}
           toggleModal={() => setModalOpen(!modalOpen)}
         />
-        <AddNewModal
+        <AddNewProductModal
           modalOpen={modalOpen}
           toggleModal={() => setModalOpen(!modalOpen)}
           categories={categories}
+        />
+        <ProductListHeading
+            selectedItemsLength={selectedItems ? selectedItems.length : 0}
+            handleChangeSelectAll={handleChangeSelectAll}
+            itemsLength={items ? items.length : 0}
         />
         <ListPageListing
           items={items}
@@ -205,4 +211,3 @@ const TodoApp = ({ match }) => {
 };
 
 export default TodoApp;
-

@@ -21,11 +21,13 @@ const ListPageListing = ({
   onContextMenu,
   onChangePage,
   categories,
-  setItems
+  setItems,
+  change,
+  setchange
 }) => {
   return (
     <Row>
-      {items.map((product) => {
+      {items.map((product,index) => {
         if (displayMode === 'imagelist') {
           return (
             <ImageListView
@@ -57,6 +59,9 @@ const ListPageListing = ({
             collect={collect}
             categories={categories}
             setItems={setItems}
+            change={change}
+            setchange={setchange}
+            index={index}
             // deleteUser={deleteUser}
           />
         );

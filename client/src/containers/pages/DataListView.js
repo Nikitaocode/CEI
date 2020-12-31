@@ -23,7 +23,7 @@ import {
   Col,
 } from 'reactstrap';
 
-const DataListView = ({ product, isSelect, collect, onCheckItem,categories }) => {
+const DataListView = ({ product, isSelect, collect, onCheckItem,categories,change,setchange,index }) => {
   const [formData, setformData] = React.useState({});
   const [modalBasic, setModalBasic] = useState(false);
   const [details, setDetails] = useState({});
@@ -101,6 +101,7 @@ const DataListView = ({ product, isSelect, collect, onCheckItem,categories }) =>
       .then((res) => {
         console.log(res);
         if (res.data.success) {
+          setchange(!change)
           setModal(false);
           NotificationManager.success(
             res.data.success,
@@ -124,7 +125,7 @@ const DataListView = ({ product, isSelect, collect, onCheckItem,categories }) =>
     axios
       .post('/api/delete-user', null, { params: { id: deleteId } })
       .then((res) => {
-        console.log(res);
+        setchange(!change)
         setModalBasic(false);
         NotificationManager.success(
           res.data.success,
@@ -142,7 +143,8 @@ const DataListView = ({ product, isSelect, collect, onCheckItem,categories }) =>
         <ContextMenuTrigger id="menu_id" data={product.id} collect={collect}>
           <Card>
             <div className="pl-2 d-flex flex-grow-1 min-width-zero">
-              <div className="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
+              <div style={{padding:'.5rem'}} className="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
+              
                 <div className="custom-control custom-checkbox pl-1 align-self-center pr-4">
                   <CustomInput
                     className="item-check mb-0"
@@ -156,6 +158,9 @@ const DataListView = ({ product, isSelect, collect, onCheckItem,categories }) =>
                     label=""
                   />
                 </div>
+                <div className="custom-control custom-checkbox pl-1 align-self-center pr-4">
+                {index+1}
+              </div>
                 <div className="custom-control pl-1 align-self-center pr-4">
                   <img
                     style={styles.profileImg}
@@ -313,6 +318,7 @@ const DataListView = ({ product, isSelect, collect, onCheckItem,categories }) =>
           className="react-select"
           classNamePrefix="react-select"
           name="form-field-name"
+          defaultValue={details.role}
           options={categories}
           onChange={(e) => {
                 setformData({ ...formData, role: e.value })

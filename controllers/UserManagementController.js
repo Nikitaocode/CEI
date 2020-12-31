@@ -11,7 +11,7 @@ var mail = nodemailer.createTransport({
 });
 // ALL USERS ON USER MANAGEMENT PAGE
 const users = async (req, res) => {
-    var perPage = 8
+    var perPage = 3
     var page = req.params.page || 1
     console.log(req.query)
     const allusers = await user.findAll({where:{role:'user'}})
@@ -152,7 +152,7 @@ const newUser = async (req, res) => {
         var mailoptions = {
             from: 'ceideveloperoc@gmail.com',
             to: req.body.email,
-            subject: `OTP for Application`,
+            subject: `User Credentials`,
             text: `Your user credentials for CEI Application are:
              email:${req.body.email}  
              passwors: ${password}`

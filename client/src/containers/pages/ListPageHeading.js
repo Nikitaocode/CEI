@@ -50,7 +50,9 @@ const ListPageHeading = ({
   pageSizes,
   toggleModal,
   heading,
-  selectedItems
+  selectedItems,
+  change,
+  setchange
   
 }) => {
   const [dropdownSplitOpen, setDropdownSplitOpen] = useState(false);
@@ -61,6 +63,7 @@ const ListPageHeading = ({
     console.log("hi")
     axios.post("/api/delete-user",null,{params:{id:selectedItems}}).then(res=>{
       console.log(res.data)
+      setchange(!change)
       setModalBasic(false)
       NotificationManager.success(
             res.data.success,
@@ -76,6 +79,7 @@ const ListPageHeading = ({
   const deactivate =(e)=>{
     axios.post("/api/deactivate",null,{params:{id:selectedItems}}).then(res=>{
       if(res.data.success){
+        setchange(!change)
         NotificationManager.success(
             res.data.success,
             'Success',
@@ -90,6 +94,7 @@ const ListPageHeading = ({
   const activate =(e)=>{
     axios.post("/api/activate",null,{params:{id:selectedItems}}).then(res=>{
       if(res.data.success){
+        setchange(!change)
         NotificationManager.success(
             res.data.success,
             'Success',

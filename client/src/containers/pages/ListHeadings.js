@@ -11,10 +11,11 @@ function ListHeadings({selectedItemsLength,handleChangeSelectAll,itemsLength}) {
     return (
         <Colxx style={{padding:"0"}} xxs="12" className="mb-3">
         <ContextMenuTrigger id="menu_id" >
-          <Card style={{height:"4rem"}} className='justify-content-center'>
+          {/* <Card style={{height:"4rem"}} className='justify-content-center'> */}
             <div className="pl-2 d-flex flex-grow-1 min-width-zero">
               
-              <div className="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
+              <div style={{padding:'.5rem'}} className="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
+             
               <div className="custom-control custom-checkbox pl-1 align-self-center pr-4 ">
               <CustomInput
                   className="custom-checkbox mb-0 d-inline-block"
@@ -23,9 +24,9 @@ function ListHeadings({selectedItemsLength,handleChangeSelectAll,itemsLength}) {
                   checked={selectedItemsLength >= itemsLength}
                   onChange={() => handleChangeSelectAll(true)}
                 />
-               
-              
               </div>
+              <div className="pl-2 align-self-center pr-4">
+                </div>
               <div className="custom-control pl-1 align-self-center pr-5">
                 
               </div>
@@ -63,7 +64,7 @@ function ListHeadings({selectedItemsLength,handleChangeSelectAll,itemsLength}) {
                 </p>
               </div>
             </div>
-          </Card>
+          {/* </Card> */}
         </ContextMenuTrigger>
       </Colxx>
     )

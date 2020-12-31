@@ -31,7 +31,7 @@ const Pagination = ({
   for (let i = startPoint; i <= endPoint; i += 1) {
     points.push(i);
   }
-
+// console.log(points)
   const firstPageButtonClassName = currentPage <= 1 ? 'disabled' : '';
   const lastPageButtonClassName = currentPage >= totalPage ? 'disabled' : '';
   const prevPageButtonClassName = currentPage <= 1 ? 'disabled' : '';

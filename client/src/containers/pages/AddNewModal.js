@@ -18,7 +18,7 @@ import axios from 'axios'
 import { NotificationManager } from '../../components/common/react-notifications';
 
 
-const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
+const AddNewModal = ({ modalOpen, toggleModal, categories,change,setchange }) => {
   const [formData,setformData]= React.useState({})
 
   const validateEmail = (value) => {
@@ -36,6 +36,8 @@ const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
     e.preventDefault()
     axios.post("/api/new-user",formData).then(res=>{
       if(res.data.success){
+        setchange(!change)
+        toggleModal()
         NotificationManager.success(
           res.data.success,
           'Success',
@@ -45,7 +47,7 @@ const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
           ''
         );
       }
-      toggleModal()
+      
     })
   }
   return (
