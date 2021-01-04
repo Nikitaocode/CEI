@@ -12,10 +12,10 @@ import {
   Collapse,
 } from 'reactstrap';
 import { injectIntl } from 'react-intl';
-import { Colxx, Separator } from '../../components/common/CustomBootstrap';
-import Breadcrumb from '../navs/Breadcrumb';
-import { NotificationManager } from '../../components/common/react-notifications';
-import IntlMessages from '../../helpers/IntlMessages';
+import { Colxx, Separator } from '../../../components/common/CustomBootstrap';
+import Breadcrumb from '../../../containers/navs/Breadcrumb';
+import { NotificationManager } from '../../../components/common/react-notifications';
+import IntlMessages from '../../../helpers/IntlMessages';
 import {
   Modal,
   ModalHeader,
@@ -28,9 +28,10 @@ import {
   DataListIcon,
   ThumbListIcon,
   ImageListIcon,
-} from '../../components/svg';
+} from '../../../components/svg';
+import { useHistory } from 'react-router-dom';
 
-const ListPageHeading = ({
+const InventoryPageHeading = ({
   intl,
   displayMode,
   changeDisplayMode,
@@ -52,13 +53,14 @@ const ListPageHeading = ({
   heading,
   selectedItems,
   change,
-  setchange
-  
+  setchange,
+  addUrl,
 }) => {
   const [dropdownSplitOpen, setDropdownSplitOpen] = useState(false);
   const [displayOptionsIsOpen, setDisplayOptionsIsOpen] = useState(false);
   const [modalBasic, setModalBasic] = useState(false);
   const [search,setSearch]=useState("")
+  const history = useHistory()
   const deleteUsers =(e)=>{
     console.log("hi")
     axios.post("/api/delete-user",null,{params:{id:selectedItems}}).then(res=>{
@@ -122,9 +124,9 @@ const ListPageHeading = ({
               color="primary"
               size="lg"
               className="top-right-button"
-              onClick={() => toggleModal()}
+              onClick={()=> history.push(addUrl)}
             >
-              <IntlMessages id="Add User" />
+              <IntlMessages id={`Add ${heading.slice(0, heading.length - 1)}`.toUpperCase()} />
             </Button>
             {'  '}
             <ButtonDropdown
@@ -290,4 +292,4 @@ const ListPageHeading = ({
   );
 };
 
-export default injectIntl(ListPageHeading);
+export default injectIntl(InventoryPageHeading);

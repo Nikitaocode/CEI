@@ -5,7 +5,7 @@ const Todo = React.lazy(() =>
   import(/* webpackChunkName: "application-todo" */ './Product')
 );
 const Survey = React.lazy(() =>
-  import(/* webpackChunkName: "application-survey" */ './Variant')
+  import(/* webpackChunkName: "application-survey" */ './survey')
 );
 // const SurveyDetail = React.lazy(() =>
 //   import(/* webpackChunkName: "application-survey-detail" */ './survey-detail')

@@ -4,7 +4,6 @@ import axios from 'axios';
 
 import { servicePath } from '../../../constants/defaultValues';
 import CustomSelectInput from '../../../components/common/CustomSelectInput';
-import ListPageHeading from '../../../containers/pages/ListPageHeading';
 import useMousetrap from '../../../hooks/use-mousetrap';
 import ProductPageListing from './ProductPageListing';
 import {
@@ -23,6 +22,7 @@ import IntlMessages from '../../../helpers/IntlMessages';
 import AddNewVariantModal from './add-new-variant';
 import VariantListHeading from './VariantListHeading';
 import Select from 'react-select';
+import InventoryPageHeading from './InventoryPageHeading';
 
 const getIndex = (value, arr, prop) => {
   for (let i = 0; i < arr.length; i += 1) {
@@ -207,7 +207,7 @@ const SurveyApp = ({ match }) => {
   ) : (
     <>
       <div className="disable-text-selection">
-        <ListPageHeading
+        <InventoryPageHeading
           heading="Variants"
           displayMode={displayMode}
           changeDisplayMode={setDisplayMode}

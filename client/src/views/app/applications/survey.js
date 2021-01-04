@@ -4,9 +4,8 @@ import axios from 'axios';
 
 import { servicePath } from '../../../constants/defaultValues';
 import CustomSelectInput from '../../../components/common/CustomSelectInput';
+import ListPageHeading from '../../../containers/pages/ListPageHeading';
 import useMousetrap from '../../../hooks/use-mousetrap';
-import AddNewProductModal from './add-new-product';
-import ProductListHeading from './ProductListHeadings';
 import ProductPageListing from './ProductPageListing';
 import {
   Button,
@@ -21,8 +20,9 @@ import {
 } from 'reactstrap';
 import { NotificationManager } from '../../../components/common/react-notifications';
 import IntlMessages from '../../../helpers/IntlMessages';
+import AddNewVariantModal from './add-new-variant';
+import VariantListHeading from './VariantListHeading';
 import Select from 'react-select';
-import InventoryPageHeading from './InventoryPageHeading';
 
 const getIndex = (value, arr, prop) => {
   for (let i = 0; i < arr.length; i += 1) {
@@ -36,7 +36,7 @@ const getIndex = (value, arr, prop) => {
 const apiUrl = `${servicePath}/cakes/paging`;
 
 const orderOptions = [
-  { column: 'title', label: 'Product Name' },
+  { column: 'title', label: 'Variant Name' },
   { column: 'category', label: 'Category' },
   { column: 'status', label: 'Status' },
 ];
@@ -48,14 +48,14 @@ const categories = [
   { label: 'Desserts', value: 'Desserts', key: 2 },
 ];
 
-const TodoApp = ({ match }) => {
+const SurveyApp = ({ match }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [displayMode, setDisplayMode] = useState('thumblist');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPageSize, setSelectedPageSize] = useState(8);
   const [selectedOrderOption, setSelectedOrderOption] = useState({
     column: 'title',
-    label: 'Product Name',
+    label: 'Variant Name',
   });
   const [formData,setformData]= React.useState({})
   const [modalBasic, setModalBasic] = useState(false);
@@ -98,7 +98,7 @@ const TodoApp = ({ match }) => {
   }, [selectedPageSize, currentPage, selectedOrderOption, search]);
 
 
-  // GET THE PRODUCT DETAILS AND OPEN THE EDIT MODAL
+  // GET THE VARIANT DETAILS AND OPEN THE EDIT MODAL
   const openModal = (e) => {
     axios.get("/api/user-details",{params:{id:e}}).then(res=>{
     console.log(res.data.data);
@@ -207,9 +207,8 @@ const TodoApp = ({ match }) => {
   ) : (
     <>
       <div className="disable-text-selection">
-        <InventoryPageHeading
-          heading="Products"
-          addUrl='/app/inventory/add-new-product'
+        <ListPageHeading
+          heading="Variants"
           displayMode={displayMode}
           changeDisplayMode={setDisplayMode}
           handleChangeSelectAll={handleChangeSelectAll}
@@ -236,12 +235,12 @@ const TodoApp = ({ match }) => {
           pageSizes={pageSizes}
           toggleModal={() => setModalOpen(!modalOpen)}
         />
-        <AddNewProductModal
+        <AddNewVariantModal
           modalOpen={modalOpen}
           toggleModal={() => setModalOpen(!modalOpen)}
           categories={categories}
         />
-        <ProductListHeading
+        <VariantListHeading
             selectedItemsLength={selectedItems ? selectedItems.length : 0}
             handleChangeSelectAll={handleChangeSelectAll}
             itemsLength={items ? items.length : 0}
@@ -265,55 +264,55 @@ const TodoApp = ({ match }) => {
           </ModalHeader>
           <ModalBody>
           <Row>
-        <Col className="sm-6">
-        <Label>
-          <IntlMessages id="Product Title" />
-        </Label>
-        <Input onChange={(e) => {
-                setformData({ ...formData, title: e.target.value })
-              }} />
+            <Col className="sm-6">
+            <Label>
+              <IntlMessages id="Variant Title" />
+            </Label>
+            <Input onChange={(e) => {
+                    setformData({ ...formData, title: e.target.value })
+                  }} />
 
-        </Col>
-        <Col className="sm-6">
-        <Label>
-          <IntlMessages id="No. of Stocks" />
-        </Label>
-        <Input type='number' onChange={(e) => {
-                setformData({ ...formData, stocks: e.target.value })
-              }}/>
+            </Col>
+            <Col className="sm-6">
+            <Label>
+              <IntlMessages id="No. of Stocks" />
+            </Label>
+            <Input type='number' onChange={(e) => {
+                    setformData({ ...formData, stocks: e.target.value })
+                  }}/>
 
-        </Col>
-        </Row>
-        <Label className="mt-4">
-          <IntlMessages id="Status" />
-        </Label>
-        
-        <Select
-          components={{ Input: CustomSelectInput }}
-          className="react-select"
-          classNamePrefix="react-select"
-          name="form-field-name"
-          options={categories}
-          onChange={(e) => {
-                setformData({ ...formData, status: e.value })
-                
-              }}
-        />
-        <Label className="mt-4">
-          <IntlMessages id="Category" />
-        </Label>
-        
-        <Select
-          components={{ Input: CustomSelectInput }}
-          className="react-select"
-          classNamePrefix="react-select"
-          name="form-field-name"
-          options={categories}
-          onChange={(e) => {
-                setformData({ ...formData, Category: e.value })
-                
-              }}
-        />
+            </Col>
+            </Row>
+            <Label className="mt-4">
+              <IntlMessages id="Status" />
+            </Label>
+            
+            <Select
+              components={{ Input: CustomSelectInput }}
+              className="react-select"
+              classNamePrefix="react-select"
+              name="form-field-name"
+              options={categories}
+              onChange={(e) => {
+                    setformData({ ...formData, status: e.value })
+                    
+                  }}
+            />
+            <Label className="mt-4">
+              <IntlMessages id="Category" />
+            </Label>
+            
+            <Select
+              components={{ Input: CustomSelectInput }}
+              className="react-select"
+              classNamePrefix="react-select"
+              name="form-field-name"
+              options={categories}
+              onChange={(e) => {
+                    setformData({ ...formData, Category: e.value })
+                    
+                  }}
+            />
         
           </ModalBody>
           <ModalFooter>
@@ -330,7 +329,7 @@ const TodoApp = ({ match }) => {
           <IntlMessages id="Delete" />
         </ModalHeader>
         <ModalBody>
-         Are you sure you want to delete Product?
+         Are you sure you want to delete Variant?
         </ModalBody>
         <ModalFooter>
           <Button onClick={() => alert('Deleted')} color="primary">
@@ -346,4 +345,4 @@ const TodoApp = ({ match }) => {
   );
 };
 
-export default TodoApp;
+export default SurveyApp;
