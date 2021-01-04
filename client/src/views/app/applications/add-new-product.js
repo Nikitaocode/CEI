@@ -38,7 +38,7 @@ const AddNewProductModal = ({ modalOpen, toggleModal, categories }) => {
     data.append("weight",formData.weight)
     axios.post("/api/inventory/new-product",data).then(res=>{
       if(res.data.success){
-        window.location.reload()
+        // window.location.reload()
       }
     })
   }
@@ -47,7 +47,6 @@ const AddNewProductModal = ({ modalOpen, toggleModal, categories }) => {
     if (e.target.files[0]) {
       console.log("picture: ", e.target.files);
       setPicture(e.target.files[0]);
-      // setformData({...formData,image:e.target.files[0]})
       console.log(picture)
     }
   };

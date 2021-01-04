@@ -2,25 +2,30 @@ import IntlMessages from '../../../helpers/IntlMessages';
 import { Colxx, Separator } from '../../../components/common/CustomBootstrap';
 import Breadcrumb from '../../../containers/navs/Breadcrumb';
 import React, { useState, useEffect,useContext } from 'react';
-import axios from 'axios'
-import { NotificationManager } from '../../../components/common/react-notifications';
-import Authservice from "../../../AuthHeader/authheader"
-import {UserContext} from "../../../Context/UserContext"
-import {useHistory} from "react-router-dom"
 import {
+    Button,
+    Label,
     Row,
+    Col,
     Card,
     CardBody,
     Input,
-    CardTitle,
-    FormGroup,
-    Label,
     CustomInput,
-    Button,
-    FormText,
     Form,
-} from 'reactstrap';
+  } from 'reactstrap';
+import Select from 'react-select';
+import CustomSelectInput from '../../../components/common/CustomSelectInput';
+import axios from 'axios'
+import { NotificationManager } from '../../../components/common/react-notifications';
+import {UserContext} from "../../../Context/UserContext"
+import {Link, useHistory} from "react-router-dom"
+
 // import { injectIntl } from 'react-intl';
+const categories = [
+    { label: 'Cakes', value: 'Cakes', key: 0 },
+    { label: 'Cupcakes', value: 'Cupcakes', key: 1 },
+    { label: 'Desserts', value: 'Desserts', key: 2 },
+];
 
 const Newproduct = ({ match }) => {
     const [formData, setformData] = useState({})
@@ -65,53 +70,60 @@ const Newproduct = ({ match }) => {
     // FORM   SUBMIT HANDLER
     const submit = (e) => {
         e.preventDefault()
+        console.log(formData)
         const data = new FormData()
-        if(formData.firstName){
-          data.append("firstName",formData.firstName)
+        if(formData.name){
+          data.append("name",formData.name)
         }
-        if(formData.lastName){
-          data.append("lastName",formData.lastName)
+        if(formData.description){
+          data.append("description",formData.description)
         }
-        if(formData.email){
-          data.append("email",formData.email)
+        if(formData.supplier){
+          data.append("supplier",formData.supplier)
         }
-        if(formData.phone){
-          data.append("phone",formData.phone)
+        if(formData.type){
+          data.append("type",formData.type)
         }
-        if(formData.role){
-          data.append("role",formData.role)
+        if(formData.brand){
+          data.append("brand",formData.brand)
         }
-        if(formData.address){
-          data.append("address",formData.address)
+        if(formData.status){
+          data.append("status",formData.status)
         }
-        if(formData.company){
-            data.append("company",formData.company)
-          }
-          if(formData.city){
-            data.append("city",formData.city)
-          }
-          if(formData.state){
-            data.append("state",formData.state)
-          }
-          if(formData.country){
-            data.append("country",formData.country)
-          }
-          if(formData.zip){
-            data.append("zip",formData.zip)
-          }
-        if(picture){
-          data.append("profileImage",picture)
+        if(formData.description){
+          data.append("description",formData.description)
         }
-        if(formData.phone && formData.phone.length<10){
-            NotificationManager.warning(
-                "Number invalid",
-                'Error',
-                3000,
-                null,
-                null,
-                ''
-              );
+        if(formData.stock){
+          data.append("stock",formData.stock)
         }
+        if(formData.initialprice){
+          data.append("initialprice",formData.iprice)
+        }
+        if(formData.retailprice){
+          data.append("retailprice",formData.rprice)
+        }
+        if(formData.butprice){
+          data.append("butprice",formData.bprice)
+        }
+        if(formData.wholesaleprice){
+          data.append("wholesaleprice",formData.wprice)
+        }
+        if(formData.weight){
+          data.append("weight",formData.weight)
+        }
+      if(picture){
+        data.append("image",picture)
+      }
+      if(formData.phone && formData.phone.length<10){
+          NotificationManager.warning(
+              "Number invalid",
+              'Error',
+              3000,
+              null,
+              null,
+              ''
+            );
+      }
         else if(formData.zipcode && formData.zipcode.length>10){
             NotificationManager.warning(
                 "Invalid Zipcode",
@@ -140,224 +152,184 @@ const Newproduct = ({ match }) => {
     }
     return (
         <>
-            <Row>
+        <Row>
+            <Colxx xxs="12">
+                <Breadcrumb heading="Add New Product" match={match} />
+                <Separator className="mb-5" />
+            </Colxx>
+        </Row>
+        <div className="d-flex flex-column">
+            <Row className="mb-4">
                 <Colxx xxs="12">
-                    <Breadcrumb heading="Add New Product" match={match} />
-                    <Separator className="mb-5" />
-                </Colxx>
+                    <Card>
+                        <CardBody>
+                            {/* <CardTitle>
+            <IntlMessages id="Edit" />
+            </CardTitle> */}
+            <Form onSubmit={submit}>
+            <div className='mt-3'>
+            <Label>
+                <IntlMessages id="Product Name" />
+            </Label>
+            <Input onChange={(e) => {
+                setformData({ ...formData, name: e.target.value })
+                }} />
+            </div>
+            <div className='mt-3'>
+            <Label>
+                <IntlMessages id="Product Image" />
+            </Label>
+            <CustomInput
+                type="file"
+                id="exampleCustomFileBrowser2"
+                name="customFile"
+            />
+            </div>
+            <Row>
+            <Col className="sm-6">
+            <Label className="mt-4">
+                <IntlMessages id="Type" />
+                </Label>
+                
+                <Select
+                components={{ Input: CustomSelectInput }}
+                className="react-select"
+                classNamePrefix="react-select"
+                name="form-field-name"
+                options={categories}
+                onChange={(e) => {
+                        setformData({ ...formData, type: e.value })
+                        
+                    }}
+                />
+            </Col>
+            <Col className="sm-6">
+                <Label className="mt-4">
+                <IntlMessages id="Brand" />
+                </Label>
+                
+                <Select
+                components={{ Input: CustomSelectInput }}
+                className="react-select"
+                classNamePrefix="react-select"
+                name="form-field-name"
+                options={categories}
+                onChange={(e) => {
+                        setformData({ ...formData, brand: e.value })
+                        
+                    }}
+                />
+            </Col>
             </Row>
-            <div className="d-flex flex-column">
-                <Row className="mb-4">
-                    <Colxx xxs="12">
-                        <Card>
-                            <CardBody>
-                                {/* <CardTitle>
-                <IntlMessages id="Edit" />
-              </CardTitle> */}
-                                <Form>
-                             
-                                    <FormGroup row>
-                                   
-                                        <Colxx sm={6}>
-                                            <FormGroup>
-                                                <Label for="exampleEmailGrid">
-                                                    <IntlMessages id="First Name" />
-                                                </Label>
-                                                <Input
-                                                    type="text"
-                                                    defaultValue={user.firstName}
-                                                    name="exampleEmailGrid"
-                                                    id="exampleEmailGrid"
-                                                    placeholder="First Name"
-                                                    onChange={(e) => {
-                                                        setformData({ ...formData, firstName: e.target.value });
-                                                    }}
-                                                />
-                                            </FormGroup>
-                                        </Colxx>
-
-                                        <Colxx sm={6}>
-                                            <FormGroup>
-                                                <Label for="examplePasswordGrid">
-                                                    <IntlMessages id="Last Name" />
-                                                </Label>
-                                                <Input
-                                                    type="text"
-                                                    defaultValue={user.lastName}
-                                                    // name="examplePasswordGrid"
-                                                    // id="examplePasswordGrid"
-                                                    placeholder="Last Name"
-                                                    onChange={(e) => {
-                                                        setformData({ ...formData, lastName: e.target.value });
-                                                    }}
-                                                />
-                                            </FormGroup>
-                                        </Colxx>
-                                        <Colxx sm={6}>
-                                            <FormGroup>
-                                                <Label for="exampleEmailGrid">
-                                                    <IntlMessages id="forms.email" />
-                                                </Label>
-                                                <Input
-                                                    defaultValue={user.email}
-                                                    type="email"
-                                                    name="exampleEmailGrid"
-                                                    id="exampleEmailGrid"
-                                                    placeholder="Email"
-                                                    onChange={(e) => {
-                                                        setformData({ ...formData, email: e.target.value });
-                                                    }}
-                                                />
-                                            </FormGroup>
-                                        </Colxx>
-
-                                        <Colxx sm={6}>
-                                            <FormGroup>
-                                                <Label for="examplePasswordGrid">
-                                                    <IntlMessages id="Phone" />
-                                                </Label>
-                                                <Input
-                                                defaultValue={user.phone}
-                                                    type="text"
-                                                    name="examplePasswordGrid"
-                                                    id="examplePasswordGrid"
-                                                    placeholder="Phone"
-                                                    onChange={(e) => {
-                                                        setformData({ ...formData, phone: e.target.value });
-                                                    }}
-                                                />
-                                            </FormGroup>
-                                        </Colxx>
-                                        <Colxx sm={12}>
-                                            <FormGroup>
-                                                <Label for="exampleAddressGrid">
-                                                    <IntlMessages id="Company Name" />
-                                                </Label>
-                                                <Input
-                                                defaultValue={user.company}
-                                                    type="text"
-                                                    name="exampleAddressGrid"
-                                                    id="exampleAddressGrid"
-                                                    placeholder="Company Name"
-                                                    onChange={(e) => {
-                                                        setformData({ ...formData, company: e.target.value });
-                                                    }}
-                                                />
-                                            </FormGroup>
-                                        </Colxx>
-
-                                        <Colxx sm={12}>
-                                            <FormGroup>
-                                                <Label for="exampleAddressGrid">
-                                                    <IntlMessages id="forms.address" />
-                                                </Label>
-                                                <Input
-                                                defaultValue={user.address}
-                                                    type="text"
-                                                    name="exampleAddressGrid"
-                                                    id="exampleAddressGrid"
-                                                    placeholder="Address"
-                                                    onChange={(e) => {
-                                                        setformData({ ...formData, address: e.target.value });
-                                                    }}
-                                                />
-                                            </FormGroup>
-                                        </Colxx>
-
-                                        <Colxx sm={4}>
-                                            <FormGroup>
-                                                <Label for="exampleAddress2Grid">
-                                                    <IntlMessages id="City" />
-                                                </Label>
-                                                <Input
-                                                defaultValue={user.city}
-                                                    type="text"
-                                                    name="exampleAddress2Grid"
-                                                    id="exampleAddress2Grid"
-                                                    placeholder="City"
-                                                    onChange={(e) => {
-                                                        setformData({ ...formData, city: e.target.value });
-                                                    }}
-                                                />
-                                            </FormGroup>
-                                        </Colxx>
-                                        <Colxx sm={3}>
-                                            <FormGroup>
-                                                <Label for="exampleAddress2Grid">
-                                                    <IntlMessages id="State" />
-                                                </Label>
-                                                <Input
-                                                defaultValue={user.state}
-                                                    type="text"
-                                                    name="exampleAddress2Grid"
-                                                    id="exampleAddress2Grid"
-                                                    placeholder="State"
-                                                    onChange={(e) => {
-                                                        setformData({ ...formData, state: e.target.value });
-                                                    }}
-                                                />
-                                            </FormGroup>
-                                        </Colxx>
-                                        <Colxx sm={3}>
-                                            <FormGroup>
-                                                <Label>
-                                                    <IntlMessages id="Country" />
-                                                </Label>
-                                                {/* <Input defaultValue={user.country} type="select" onChange={(e) => {
-                                                    setformData({ ...formData, country: e.target.value });
-                                                }}>
-
-                                                    <option>Select</option>
-                                                    {countries.map(item => {
-                                                        return (<option>{item}</option>)
-                                                    })}
-
-                                                </Input> */}
-                                                {/* <select value={user.country} onChange={(e) => {
-                                                    setformData({ ...formData, country: e.target.value })
-                                                }}>
-                                                <option>Select</option>
-                                                    {countries.map(item => {
-                                                        return (<option>{item}</option>)
-                                                    })}
-                                                </select> */}
-                                                <Input
-                                                defaultValue={user.country}
-                                                    type="text"
-                                                    name="exampleAddress2Grid"
-                                                    id="exampleAddress2Grid"
-                                                    placeholder="State"
-                                                    onChange={(e) => {
-                                                        setformData({ ...formData, state: e.target.value });
-                                                    }}
-                                                />
-                                                
-                                            </FormGroup>
-                                        </Colxx>
-                                        <Colxx sm={2}>
-                                            <FormGroup>
-                                                <Label for="exampleZipGrid">
-                                                    <IntlMessages id="forms.zip" />
-                                                </Label>
-                                                <Input
-                                                defaultValue={user.zipcode}
-                                                    type="text"
-                                                    name="exampleZipGrid"
-                                                    id="exampleZipGrid"
-                                                    placeholder="Zip"
-                                                    onChange={(e) => {
-                                                        setformData({ ...formData, zipcode: e.target.value });
-                                                    }}
-                                                />
-                                            </FormGroup>
-                                        </Colxx>
-
-
-                                    </FormGroup>
-
-                                    <Button onClick={submit} color="primary">
-                                        <IntlMessages id="Save Changes" />
-                                    </Button>
+            <Row>
+            <Col className="sm-6">
+                <Label className="mt-4">
+                <IntlMessages id="Supplier" />
+                </Label>
+                
+                <Select
+                components={{ Input: CustomSelectInput }}
+                className="react-select"
+                classNamePrefix="react-select"
+                name="form-field-name"
+                options={categories}
+                onChange={(e) => {
+                        setformData({ ...formData, supplier: e.value })
+                        
+                    }}
+                />
+            </Col>
+            <Col className="sm-6">
+                <Label className="mt-4">
+                <IntlMessages id="Status" />
+                </Label>
+                
+                <Select
+                components={{ Input: CustomSelectInput }}
+                className="react-select"
+                classNamePrefix="react-select"
+                name="form-field-name"
+                options={categories}
+                onChange={(e) => {
+                        setformData({ ...formData, status: e.value })
+                        
+                    }}
+                />
+            </Col>
+            </Row>
+            <Row>
+            <Col className="sm-6">
+            <Label className="mt-4">
+                <IntlMessages id="Initial Price" />
+            </Label>
+            <Input type='number' onChange={(e) => {
+                setformData({ ...formData, iprice: e.target.value })
+                }} />
+            </Col>
+            <Col className="sm-6">
+            <Label className="mt-4">
+                <IntlMessages id="Retail Price" />
+            </Label>
+            <Input type='number' onChange={(e) => {
+                setformData({ ...formData, rprice: e.target.value })
+                }} />
+            </Col>
+            </Row>
+            <Row>
+            <Col className="sm-6">
+            <Label className="mt-4">
+                <IntlMessages id="But Price" />
+            </Label>
+            <Input type='number' onChange={(e) => {
+                setformData({ ...formData, bprice: e.target.value })
+                }} />
+            </Col>
+            <Col className="sm-6">
+            <Label className="mt-4">
+                <IntlMessages id="Wholesale Price" />
+            </Label>
+            <Input type='number' onChange={(e) => {
+                setformData({ ...formData, wprice: e.target.value })
+                }} />
+            </Col>
+            </Row>
+            <Row>
+            <Col className="sm-6">
+            <Label className="mt-4">
+                <IntlMessages id="Stock" />
+            </Label>
+            <Input onChange={(e) => {
+                setformData({ ...formData, stock: e.target.value })
+                }} />
+            </Col>
+            <Col className="sm-6">
+            <Label className="mt-4">
+                <IntlMessages id="Weight" />
+            </Label>
+            <Input onChange={(e) => {
+                setformData({ ...formData, weight: e.target.value })
+                }} />
+            </Col>
+            </Row>
+            <div className='mt-3'>
+            <Label>
+                <IntlMessages id="Product Description" />
+            </Label>
+            <Input type="textarea" onChange={(e) => {
+                setformData({ ...formData, description: e.target.value })
+                }} />
+            </div>
+            <div className="mt-3">
+            
+            </div>
+            <div className="mt-5">
+            <Button onClick={ e => {e.preventDefault(); history.push('/app/inventory/products')}}color="secondary" outline >
+                <IntlMessages id="pages.cancel" />
+            </Button>
+            <Button className='mx-3' color="primary">
+                <IntlMessages id="Create Product" />
+            </Button>
+            </div>
                                 </Form>
                             </CardBody>
                         </Card>

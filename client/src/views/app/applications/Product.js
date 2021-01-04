@@ -209,6 +209,7 @@ const TodoApp = ({ match }) => {
       <div className="disable-text-selection">
         <ListPageHeading
           heading="Products"
+          addUrl='/app/inventory/add-new-product'
           displayMode={displayMode}
           changeDisplayMode={setDisplayMode}
           handleChangeSelectAll={handleChangeSelectAll}

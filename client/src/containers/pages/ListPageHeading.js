@@ -29,6 +29,7 @@ import {
   ThumbListIcon,
   ImageListIcon,
 } from '../../components/svg';
+import { useHistory } from 'react-router-dom';
 
 const ListPageHeading = ({
   intl,
@@ -52,13 +53,14 @@ const ListPageHeading = ({
   heading,
   selectedItems,
   change,
-  setchange
-  
+  setchange,
+  addUrl,
 }) => {
   const [dropdownSplitOpen, setDropdownSplitOpen] = useState(false);
   const [displayOptionsIsOpen, setDisplayOptionsIsOpen] = useState(false);
   const [modalBasic, setModalBasic] = useState(false);
   const [search,setSearch]=useState("")
+  const history = useHistory()
   const deleteUsers =(e)=>{
     console.log("hi")
     axios.post("/api/delete-user",null,{params:{id:selectedItems}}).then(res=>{
@@ -122,9 +124,9 @@ const ListPageHeading = ({
               color="primary"
               size="lg"
               className="top-right-button"
-              onClick={() => toggleModal()}
+              onClick={()=> history.push(addUrl)}
             >
-              <IntlMessages id="pages.add-new" />
+              <IntlMessages id={`Add ${heading.slice(0, heading.length - 1)}`.toUpperCase()} />
             </Button>
             {'  '}
             <ButtonDropdown
