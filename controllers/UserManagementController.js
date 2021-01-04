@@ -11,7 +11,7 @@ var mail = nodemailer.createTransport({
 });
 // ALL USERS ON USER MANAGEMENT PAGE
 const users = async (req, res) => {
-    var perPage = 3
+    var perPage = 8
     var page = req.params.page || 1
     console.log(req.query)
     const allusers = await user.findAll({where:{role:'user'}})
