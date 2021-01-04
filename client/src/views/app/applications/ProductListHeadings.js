@@ -9,7 +9,7 @@ import { Colxx } from '../../../components/common/CustomBootstrap';
 
 function ProductListHeading({selectedItemsLength,handleChangeSelectAll,itemsLength}) {
     return (
-        <Colxx style={{padding:"0"}} xxs="12" className="mb-3">
+        <Colxx style={{padding:"0"}} xxs="12" className="mb-2">
         <ContextMenuTrigger id="menu_id" >
         <Card style={{background : 'transparent',boxShadow : 'none'}}>
           <div className="d-flex flex-grow-1 min-width-zero">
@@ -17,15 +17,15 @@ function ProductListHeading({selectedItemsLength,handleChangeSelectAll,itemsLeng
             <CustomInput
                 className="custom-checkbox mb-0 d-inline-block"
                 type="checkbox"
-                style={{cursor:'pointer'}}
                 id="checkAll"
+                style={{cursor:'pointer'}}
                 checked={selectedItemsLength >= itemsLength}
                 onChange={() => handleChangeSelectAll(true)}
               />
               <div className="custom-control pl-5 align-self-center pr-5"></div>
               <div className="custom-control pl-5 align-self-center pr-5"></div>
-              <div className="w-40 w-sm-100 pl-4">
-                <p className="list-item-heading mb-1 truncate font-weight-bold">
+              <div className="w-40 w-sm-100 pl-2">
+                <p className="list-item-heading mb-1 truncate align-self-center font-weight-bold">
                   Product Title
                 </p>
               </div>
@@ -54,7 +54,7 @@ function ProductListHeading({selectedItemsLength,handleChangeSelectAll,itemsLeng
                 Status
                 </p>
               </div>
-              <div className=" w-15 w-sm-100">
+              <div className=" w-15 w-sm-100 pl-3">
                 <p className="list-item-heading mb-1 truncate font-weight-bold">
                 Action
                 </p>

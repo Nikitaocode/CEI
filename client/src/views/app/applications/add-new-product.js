@@ -1,6 +1,5 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {
-  CustomInput,
   Button,
   Modal,
   ModalHeader,
@@ -15,19 +14,43 @@ import Select from 'react-select';
 import CustomSelectInput from '../../../components/common/CustomSelectInput';
 import IntlMessages from '../../../helpers/IntlMessages';
 import axios from 'axios'
+import CustomInput from 'reactstrap/lib/CustomInput';
 
 const AddNewProductModal = ({ modalOpen, toggleModal, categories }) => {
   const [formData,setformData]= React.useState({})
+  const [picture, setPicture] = useState(null);
+
 
   // Create new user
-  const CreateNewUser=(e)=>{
+  const CreateNewProduct=(e)=>{
     e.preventDefault()
-    axios.post("/api/new-user",formData).then(res=>{
+    const data = new FormData()
+    data.append("image",picture)
+    data.append("name",formData.name)
+    data.append("supplier",formData.supplier)
+    data.append("productType",formData.productType)
+    data.append("brand",formData.brand)
+    data.append("initialPrice",formData.initialPrice)
+    data.append("initialStock",formData.initialStock)
+    data.append("retailPrice",formData.retailPrice)
+    data.append("buyPrice",formData.buyPrice)
+    data.append("wholesalePrice",formData.wholesalePrice)
+    data.append("weight",formData.weight)
+    axios.post("/api/inventory/new-product",data).then(res=>{
       if(res.data.success){
         window.location.reload()
       }
     })
   }
+
+  const onChangePicture = (e) => {
+    if (e.target.files[0]) {
+      console.log("picture: ", e.target.files);
+      setPicture(e.target.files[0]);
+      // setformData({...formData,image:e.target.files[0]})
+      console.log(picture)
+    }
+  };
   return (
     <Modal
       isOpen={modalOpen}
@@ -39,63 +62,125 @@ const AddNewProductModal = ({ modalOpen, toggleModal, categories }) => {
         <IntlMessages id="Add New Product" />
       </ModalHeader>
       <ModalBody>
+        <div className='mt-3'>
+          <Label>
+            <IntlMessages id="Product Name" />
+          </Label>
+          <Input onChange={(e) => {
+              setformData({ ...formData, name: e.target.value })
+            }} />
+        </div>
+        <div className='mt-3'>
+          <Label>
+            <IntlMessages id="Product Image" />
+          </Label>
+          <CustomInput
+            type="file"
+            id="exampleCustomFileBrowser2"
+            name="customFile"
+            onChange={onChangePicture}
+          />
+        </div>
         <Row>
-        <Col className="sm-6">
-        <Label>
-          <IntlMessages id="Product Title" />
-        </Label>
-        <Input onChange={(e) => {
-                setformData({ ...formData, title: e.target.value })
-              }} />
-
-        </Col>
-        <Col className="sm-6">
-        <Label>
-          <IntlMessages id="No. of Stocks" />
-        </Label>
-        <Input type='number' onChange={(e) => {
-                setformData({ ...formData, stocks: e.target.value })
-              }}/>
-
-        </Col>
+          <Col className="sm-6">
+          <Label className="mt-4">
+              <IntlMessages id="Type" />
+            </Label>
+            
+            <Input onChange={(e) => {
+              setformData({ ...formData, productType: e.target.value })
+            }} />
+          </Col>
+          <Col className="sm-6">
+            <Label className="mt-4">
+              <IntlMessages id="Brand" />
+            </Label>
+            
+            <Input  onChange={(e) => {
+              setformData({ ...formData, brand: e.target.value })
+            }} />
+          </Col>
         </Row>
-        <Label className="mt-4">
-          <IntlMessages id="Status" />
-        </Label>
-        
-        <Select
-          components={{ Input: CustomSelectInput }}
-          className="react-select"
-          classNamePrefix="react-select"
-          name="form-field-name"
-          options={categories}
-          onChange={(e) => {
-                setformData({ ...formData, status: e.value })
-                
-              }}
-        />
-        <Label className="mt-4">
-          <IntlMessages id="Category" />
-        </Label>
-        
-        <Select
-          components={{ Input: CustomSelectInput }}
-          className="react-select"
-          classNamePrefix="react-select"
-          name="form-field-name"
-          options={categories}
-          onChange={(e) => {
-                setformData({ ...formData, Category: e.value })
-                
-              }}
-        />
+        <Row>
+          <Col className="sm-6">
+            <Label className="mt-4">
+              <IntlMessages id="Supplier" />
+            </Label>
+            
+            <Input type='number' onChange={(e) => {
+              setformData({ ...formData, supplier: e.target.value })
+            }} />
+          </Col>
+          <Col className="sm-6">
+            <Label className="mt-4">
+              <IntlMessages id="Initial Stock" />
+            </Label>
+            
+            <Input type='number' onChange={(e) => {
+              setformData({ ...formData, initialStock: e.target.value })
+            }} />
+          </Col>
+          
+        </Row>
+        <Row>
+          <Col className="sm-6">
+          <Label className="mt-4">
+            <IntlMessages id="Initial Price" />
+          </Label>
+          <Input onChange={(e) => {
+              setformData({ ...formData, initialPrice: e.target.value })
+            }} />
+          </Col>
+          <Col className="sm-6">
+          <Label className="mt-4">
+            <IntlMessages id="Retail Price" />
+          </Label>
+          <Input type='number' onChange={(e) => {
+              setformData({ ...formData, retailPrice: e.target.value })
+            }} />
+          </Col>
+        </Row>
+        <Row>
+          <Col className="sm-6">
+          <Label className="mt-4">
+            <IntlMessages id="Buy Price" />
+          </Label>
+          <Input type='number' onChange={(e) => {
+              setformData({ ...formData, buyPrice: e.target.value })
+            }} />
+          </Col>
+          <Col className="sm-6">
+          <Label className="mt-4">
+            <IntlMessages id="Wholesale Price" />
+          </Label>
+          <Input type='number' onChange={(e) => {
+              setformData({ ...formData, wholesalePrice: e.target.value })
+            }} />
+          </Col>
+        </Row>
+        <div className='mt-3'>
+          <Label>
+            <IntlMessages id="Weight" />
+          </Label>
+          <Input onChange={(e) => {
+              setformData({ ...formData, weight: e.target.value })
+            }} />
+        </div>
+        <div className='mt-3'>
+          <Label>
+            <IntlMessages id="Product Description" />
+          </Label>
+          <Input type="textarea" onChange={(e) => {
+              setformData({ ...formData, description: e.target.value })
+            }} />
+        </div>
         
       </ModalBody>
       <ModalFooter>
         <Button color="secondary" outline onClick={toggleModal}>
           <IntlMessages id="pages.cancel" />
         </Button>
-        <Button onClick={CreateNewUser} color="primary">
+        <Button onClick={CreateNewProduct} color="primary">
           <IntlMessages id="Create Product" />
         </Button>
       </ModalFooter>

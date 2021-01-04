@@ -5,6 +5,6 @@ var storage = multer.diskStorage({});
 var upload = multer({storage:storage});
 const ProductController = require("../controllers/InventorManagement/ProductController")
 
-router.route("/new-product").post(ProductController.newProduct)
+router.route("/new-product").post(upload.single("image"), ProductController.newProduct)
 
 module.exports = router;

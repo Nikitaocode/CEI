@@ -9,7 +9,7 @@ import { Colxx } from '../../../components/common/CustomBootstrap';
 
 function VariantListHeading({selectedItemsLength,handleChangeSelectAll,itemsLength}) {
     return (
-        <Colxx style={{padding:"0"}} xxs="12" className="mb-3">
+        <Colxx style={{padding:"0"}} xxs="12" className="mb-2">
         <ContextMenuTrigger id="menu_id" >
         <Card style={{background : 'transparent', zIndex : 0, boxShadow : 'none'}}>
           <div className="d-flex flex-grow-1 min-width-zero">
@@ -17,14 +17,13 @@ function VariantListHeading({selectedItemsLength,handleChangeSelectAll,itemsLeng
             <CustomInput
                 className="custom-checkbox mb-0 d-inline-block"
                 type="checkbox"
-                style={{cursor:'pointer'}}
                 id="checkAll"
                 checked={selectedItemsLength >= itemsLength}
                 onChange={() => handleChangeSelectAll(true)}
               />
               <div class="custom-control pl-5 align-self-center pr-5"></div>
               <div class="custom-control pl-5 align-self-center pr-5"></div>
-              <div className="w-40 w-sm-100 pl-4">
+              <div className="w-40 w-sm-100 pl-2">
                 <p className="list-item-heading mb-1 truncate font-weight-bold ">
                   Variant Title
                 </p>
@@ -54,7 +53,7 @@ function VariantListHeading({selectedItemsLength,handleChangeSelectAll,itemsLeng
                 Status
                 </p>
               </div>
-              <div className=" w-15 w-sm-100">
+              <div className=" w-15 w-sm-100 pl-3">
                 <p className="list-item-heading mb-1 truncate font-weight-bold">
                 Action
                 </p>

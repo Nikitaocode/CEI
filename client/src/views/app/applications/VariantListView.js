@@ -12,12 +12,12 @@ const VariantListView = ({ openModal, deleteModal, index, variant, isSelect, col
     <Colxx xxs="12" key={variant.id} className="mb-3">
       <ContextMenuTrigger id="menu_id" data={variant.id} collect={collect}>
         <Card
+          style={{height:'4rem'}}
           className={classnames('d-flex flex-row align-self-center', {
             active: isSelect,
           })}
         >
         <div className="custom-control custom-checkbox pl-1 align-self-center px-4"
-        style={{cursor:'pointer'}}
         onClick={(event) => onCheckItem(event, variant.id)}
         >
             <CustomInput
@@ -31,11 +31,11 @@ const VariantListView = ({ openModal, deleteModal, index, variant, isSelect, col
         <div className="custom-control custom-checkbox align-self-center pr-5">
           {index}
         </div>
-          <NavLink to={`?p=${variant.id}`} className='pt-3'>
+        <NavLink to={`?p=${variant.id}`} className='align-self-center'>
             <img
               alt={variant.title}
               src={variant.img}
-              style={{maxHeight:"60px"}}
+              style={{height:"3rem"}}
               className="list-thumbnail responsive border-0 card-img-left"
             />
           </NavLink>
@@ -63,18 +63,18 @@ const VariantListView = ({ openModal, deleteModal, index, variant, isSelect, col
                   {variant.status}
                 </Badge>
               </div>
-              <p className="w-15 w-sm-100">
+              <p className="w-15 w-sm-100 align-self-center pt-3">
               <FaEdit
                   onClick={()=>openModal(variant.id)}
                   style={{ cursor: 'pointer'}}
                   id={variant.id}
-                  className="mb-1 w-20 w-sm-100 list-item-heading  mx-2 "
+                  className="w-20 w-sm-100 list-item-heading  mx-2 "
                 />
                 <FaTrash
                   onClick={() => deleteModal(variant.id)}
                   value={variant.id}
                   style={{ cursor: 'pointer' }}
-                  className="mb-1 w-20 w-sm-100 list-item-heading mx-2 "
+                  className="w-20 w-sm-100 list-item-heading mx-2 "
                 />
               </p>
             </div>

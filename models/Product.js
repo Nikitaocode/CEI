@@ -33,7 +33,7 @@ const Product = db.define('products', {
     retailPrice:{
         type:Sequelize.STRING
     },
-    butPrice:{
+    buyPrice:{
         type:Sequelize.STRING
     },
     wholesalePrice:{
@@ -43,8 +43,6 @@ const Product = db.define('products', {
         type:Sequelize.STRING
     }
     
-
-   
 });
 db
 .sync().then(()=>{

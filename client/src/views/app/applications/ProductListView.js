@@ -12,7 +12,8 @@ const ProductListView = ({ openModal, deleteModal, index, product, isSelect, col
     <Colxx xxs="12" key={product.id} className="mb-3">
       <ContextMenuTrigger id="menu_id" data={product.id} collect={collect}>
         <Card
-          className={classnames('d-flex flex-row align-self-center', {
+          style={{height:'4rem'}}
+          className={classnames('d-flex flex-row align-self-center ', {
             active: isSelect,
           })}
         >
@@ -32,11 +33,11 @@ const ProductListView = ({ openModal, deleteModal, index, product, isSelect, col
         <div className="custom-control custom-checkbox align-self-center pr-5">
           {index}
         </div>
-          <NavLink to={`?p=${product.id}`} className='pt-3'>
+          <NavLink to={`?p=${product.id}`} className='align-self-center'>
             <img
               alt={product.title}
               src={product.img}
-              style={{maxHeight:"60px"}}
+              style={{height:"3rem"}}
               className="list-thumbnail responsive border-0 card-img-left"
             />
           </NavLink>
@@ -64,18 +65,18 @@ const ProductListView = ({ openModal, deleteModal, index, product, isSelect, col
                   {product.status}
                 </Badge>
               </div>
-              <p className="w-15 w-sm-100">
+              <p className="w-15 w-sm-100 align-self-center pt-3">
               <FaEdit
                   onClick={()=>openModal(product.id)}
                   style={{ cursor: 'pointer'}}
                   id={product.id}
-                  className="mb-1 w-20 w-sm-100 list-item-heading  mx-2 "
+                  className="w-20 w-sm-100 list-item-heading  mx-2 "
                 />
                 <FaTrash
                   onClick={() => deleteModal(product.id)}
                   value={product.id}
                   style={{ cursor: 'pointer' }}
-                  className="mb-1 w-20 w-sm-100 list-item-heading mx-2 "
+                  className="w-20 w-sm-100 list-item-heading mx-2 "
                 />
               </p>
             </div>
