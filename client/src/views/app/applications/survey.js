@@ -3,12 +3,26 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { servicePath } from '../../../constants/defaultValues';
-
+import CustomSelectInput from '../../../components/common/CustomSelectInput';
 import ListPageHeading from '../../../containers/pages/ListPageHeading';
-import ListPageListing from '../../../containers/pages/ListPageListing';
 import useMousetrap from '../../../hooks/use-mousetrap';
-import VariantListHeading from './VariantListHeading';
+import ProductPageListing from './ProductPageListing';
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Input,
+  Label,
+  Row,
+  Col
+} from 'reactstrap';
+import { NotificationManager } from '../../../components/common/react-notifications';
+import IntlMessages from '../../../helpers/IntlMessages';
 import AddNewVariantModal from './add-new-variant';
+import VariantListHeading from './VariantListHeading';
+import Select from 'react-select';
 
 const getIndex = (value, arr, prop) => {
   for (let i = 0; i < arr.length; i += 1) {
@@ -22,7 +36,7 @@ const getIndex = (value, arr, prop) => {
 const apiUrl = `${servicePath}/cakes/paging`;
 
 const orderOptions = [
-  { column: 'title', label: 'Product Name' },
+  { column: 'title', label: 'Variant Name' },
   { column: 'category', label: 'Category' },
   { column: 'status', label: 'Status' },
 ];
@@ -41,9 +55,10 @@ const SurveyApp = ({ match }) => {
   const [selectedPageSize, setSelectedPageSize] = useState(8);
   const [selectedOrderOption, setSelectedOrderOption] = useState({
     column: 'title',
-    label: 'Product Name',
+    label: 'Variant Name',
   });
-
+  const [formData,setformData]= React.useState({})
+  const [modalBasic, setModalBasic] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [totalItemCount, setTotalItemCount] = useState(0);
   const [totalPage, setTotalPage] = useState(1);
@@ -51,7 +66,13 @@ const SurveyApp = ({ match }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [items, setItems] = useState([]);
   const [lastChecked, setLastChecked] = useState(null);
-
+  const [modal,setModal]= useState(false)
+  const [details,setDetails] = useState({})
+  
+  const deleteModal =(e)=>{
+    setModalBasic(true)
+  }
+  
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedPageSize, selectedOrderOption]);
@@ -75,6 +96,36 @@ const SurveyApp = ({ match }) => {
     }
     fetchData();
   }, [selectedPageSize, currentPage, selectedOrderOption, search]);
+
+
+  // GET THE VARIANT DETAILS AND OPEN THE EDIT MODAL
+  const openModal = (e) => {
+    axios.get("/api/user-details",{params:{id:e}}).then(res=>{
+    console.log(res.data.data);
+    setDetails(res.data.data)
+    console.log(details);
+    setModal(true)
+    })
+    
+  };
+
+  // EDIT HANDLER
+  const edit=(e)=>{
+    console.log(e);
+    axios.post("/api/edit-user",formData,{params:{id:e}}).then(res=>{
+      console.log(res);
+      if (res.data.success) {
+        setModal(false)
+        NotificationManager.success(res.data.success, 'Success', 3000, null, null, '');
+        window.location.reload()
+      }
+
+    })
+  }
+
+
+
+
 
   const onCheckItem = (event, id) => {
     if (
@@ -157,7 +208,7 @@ const SurveyApp = ({ match }) => {
     <>
       <div className="disable-text-selection">
         <ListPageHeading
-          heading="Variants "
+          heading="Variants"
           displayMode={displayMode}
           changeDisplayMode={setDisplayMode}
           handleChangeSelectAll={handleChangeSelectAll}
@@ -189,13 +240,15 @@ const SurveyApp = ({ match }) => {
           toggleModal={() => setModalOpen(!modalOpen)}
           categories={categories}
         />
-        <VariantListHeading 
-          selectedItemsLength={selectedItems ? selectedItems.length : 0}
-          handleChangeSelectAll={handleChangeSelectAll}
-          itemsLength={items ? items.length : 0}
+        <VariantListHeading
+            selectedItemsLength={selectedItems ? selectedItems.length : 0}
+            handleChangeSelectAll={handleChangeSelectAll}
+            itemsLength={items ? items.length : 0}
         />
-        <ListPageListing
+        <ProductPageListing 
           items={items}
+          deleteModal={deleteModal}
+          openModal={openModal}
           displayMode={displayMode}
           selectedItems={selectedItems}
           onCheckItem={onCheckItem}
@@ -205,6 +258,88 @@ const SurveyApp = ({ match }) => {
           onContextMenu={onContextMenu}
           onChangePage={setCurrentPage}
         />
+        <Modal isOpen={modal} toggle={() => setModal(!modal)}>
+          <ModalHeader>
+            <IntlMessages id="Edit" />
+          </ModalHeader>
+          <ModalBody>
+          <Row>
+            <Col className="sm-6">
+            <Label>
+              <IntlMessages id="Variant Title" />
+            </Label>
+            <Input onChange={(e) => {
+                    setformData({ ...formData, title: e.target.value })
+                  }} />
+
+            </Col>
+            <Col className="sm-6">
+            <Label>
+              <IntlMessages id="No. of Stocks" />
+            </Label>
+            <Input type='number' onChange={(e) => {
+                    setformData({ ...formData, stocks: e.target.value })
+                  }}/>
+
+            </Col>
+            </Row>
+            <Label className="mt-4">
+              <IntlMessages id="Status" />
+            </Label>
+            
+            <Select
+              components={{ Input: CustomSelectInput }}
+              className="react-select"
+              classNamePrefix="react-select"
+              name="form-field-name"
+              options={categories}
+              onChange={(e) => {
+                    setformData({ ...formData, status: e.value })
+                    
+                  }}
+            />
+            <Label className="mt-4">
+              <IntlMessages id="Category" />
+            </Label>
+            
+            <Select
+              components={{ Input: CustomSelectInput }}
+              className="react-select"
+              classNamePrefix="react-select"
+              name="form-field-name"
+              options={categories}
+              onChange={(e) => {
+                    setformData({ ...formData, Category: e.value })
+                    
+                  }}
+            />
+        
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={()=>edit(details.id)} color="primary">
+              Save Changes
+            </Button>{' '}
+            <Button color="secondary" onClick={() => setModal(false)}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
+        <Modal isOpen={modalBasic} toggle={() => setModal(!modalBasic)}>
+        <ModalHeader>
+          <IntlMessages id="Delete" />
+        </ModalHeader>
+        <ModalBody>
+         Are you sure you want to delete Variant?
+        </ModalBody>
+        <ModalFooter>
+          <Button onClick={() => alert('Deleted')} color="primary">
+            Confirm
+          </Button>{' '}
+          <Button color="secondary" onClick={() => setModalBasic(false)}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
       </div>
     </>
   );
